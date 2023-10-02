@@ -16,9 +16,9 @@ rectangle Logiciel {
 }
 
 Us -- menu
-Us -- ec
+menu -- ec
 af ..> ec : <<include>>
-Us -- select
+menu -- select
 select <.. copy  : <<extends>>
 select <.. cut   : <<extends>>
 select <.. paste : <<extends>>
