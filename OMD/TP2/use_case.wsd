@@ -1,0 +1,66 @@
+@startuml
+
+left to right direction
+actor "User" as Us
+
+rectangle Logiciel {
+
+    usecase "menu" as menu
+    usecase "écrire" as ec
+    usecase "afficher" as af
+    usecase "sélectionner zone de texte" as select
+    usecase "copier" as copy
+    usecase "couper" as cut
+    usecase "coller" as paste
+    
+}
+
+Us -- menu
+menu -- ec
+af ..> ec : <<include>>
+menu -- select
+select <.. copy  : <<extends>>
+select <.. cut   : <<extends>>
+select <.. paste : <<extends>>
+
+@enduml
+
+/' USECASE ECRIRE
+    But : Ajouter du texte dans la zone de travail
+    Début : le logiciel est en mode écriture
+    Fin :  l'utilisateur quitte le mode écriture
+    Acteurs : Utilisateur
+    Enchainements :
+        1 - Le logiciel capte le nouveau caractère
+        2 - Le logicièl ajoute le carctère à la zone de travail
+        3 - l'utiliateur vas dans le menu
+    Alternatives : 
+        3 - l'utilisateur saisie un autre caractère, retournée 1
+    Excpetions : 
+'/
+
+/' USECASE MENU
+    But : Changer le mode du logiciel
+    Début : le logiciel n'est pas dans le menu
+    Fin :  le logiciel sort du menu
+    Acteurs : Utilisateur
+    Enchainements :
+        1 - Le logiciel capte la requète d'ouverture du menu
+        2 - Le logiciel ouvre le menu
+        3 - L'utilisateur envoie le mode dans lequel il souhaite se rendre
+        4 - le logiciel passe dans le mode demandé
+    Alternatives :
+        3 - Le mode demandé n'existe pas, retournée à l'étape 2 
+    Excpetions : 
+'/
+
+/' USECASE AFFICHER
+    But : Afficher la zone de travail
+    Début : Du texte à été rentrée 
+    Fin :  le texte à été affiché
+    Acteurs : 
+    Enchainements :
+        1 - Le logiciel affiche le contenue de la zone de travail
+    Alternatives :
+    Excpetions : 
+'/
