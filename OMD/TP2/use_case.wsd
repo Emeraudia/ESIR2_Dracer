@@ -64,3 +64,18 @@ select <.. paste : <<extends>>
     Alternatives :
     Excpetions : 
 '/
+
+/'  USECASE COLLER
+    But : coller un texte a la place de la selection
+    Début : l'utilisateur veut coller une zone de texte
+    Fin : l'utilisateur a coller le texte
+    Acteurs : Utilisateur
+    Enchainements :
+        1 - l'utilisateur ouvre le menu
+        2 - l'utilisateur selectionne une zone
+        3 - l'utilisateur colle le texte
+    Alternatives : 
+        1 - le logiciel remplace le texte dans la zone de selection si cette derniere n'est pas vide a l'etape 3
+    Excpetions : 
+        1 - 
+'/
