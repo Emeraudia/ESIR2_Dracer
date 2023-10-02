@@ -53,3 +53,14 @@ select <.. paste : <<extends>>
         3 - Le mode demandé n'existe pas, retournée à l'étape 2 
     Excpetions : 
 '/
+
+/' USECASE AFFICHER
+    But : Afficher la zone de travail
+    Début : Du texte à été rentrée 
+    Fin :  le texte à été affiché
+    Acteurs : 
+    Enchainements :
+        1 - Le logiciel affiche le contenue de la zone de travail
+    Alternatives :
+    Excpetions : 
+'/
