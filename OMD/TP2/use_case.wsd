@@ -1,0 +1,113 @@
+@startuml
+
+left to right direction
+actor "User" as Us
+
+rectangle Logiciel {
+
+    usecase "menu" as menu
+    usecase "écrire" as ec
+    usecase "afficher" as af
+    usecase "sélectionner zone de texte" as select
+    usecase "copier" as copy
+    usecase "couper" as cut
+    usecase "coller" as paste
+    
+}
+
+Us -- menu
+menu -- ec
+af ..> ec : <<include>>
+menu -- select
+select <.. copy  : <<extends>>
+select <.. cut   : <<extends>>
+select <.. paste : <<extends>>
+
+@enduml
+
+/' USECASE ECRIRE
+    But : Ajouter du texte dans la zone de travail
+    Début : le logiciel est en mode écriture
+    Fin :  l'utilisateur quitte le mode écriture
+    Acteurs : Utilisateur
+    Enchainements :
+        1 - Le logiciel capte le nouveau caractère
+        2 - Le logicièl ajoute le carctère à la zone de travail
+        3 - l'utiliateur vas dans le menu
+    Alternatives : 
+        3 - l'utilisateur saisie un autre caractère, retournée 1
+    Excpetions : 
+'/
+
+/' USECASE MENU
+    But : Changer le mode du logiciel
+    Début : le logiciel n'est pas dans le menu
+    Fin :  le logiciel sort du menu
+    Acteurs : Utilisateur
+    Enchainements :
+        1 - Le logiciel capte la requète d'ouverture du menu
+        2 - Le logiciel ouvre le menu
+        3 - L'utilisateur envoie le mode dans lequel il souhaite se rendre
+        4 - le logiciel passe dans le mode demandé
+    Alternatives :
+        3 - Le mode demandé n'existe pas, retournée à l'étape 2 
+    Excpetions : 
+'/
+
+/' USECASE AFFICHER
+    But : Afficher la zone de travail
+    Début : Du texte à été rentrée 
+    Fin :  le texte à été affiché
+    Acteurs : 
+    Enchainements :
+        1 - Le logiciel affiche le contenue de la zone de travail
+    Alternatives :
+    Excpetions : 
+'/
+
+/'  USECASE COLLER
+    But : coller un texte a la place de la selection
+    Début : l'utilisateur veut coller une zone de texte
+    Fin : l'utilisateur a coller le texte
+    Acteurs : Utilisateur
+    Enchainements :
+        1 - l'utilisateur ouvre le menu
+        2 - l'utilisateur selectionne une zone
+        3 - l'utilisateur colle le texte
+    Alternatives : 
+        1 - le logiciel remplace le texte dans la zone de selection si cette derniere n'est pas vide a l'etape 3
+    Excpetions : 
+        1 - 
+'/
+
+
+/' USECASE COPIER
+    But : Copier la selection
+    Début : L'utilisateur veut copié une zone du texte
+    Fin : L'utilisateur a copié
+    Acteurs : Utilisateur
+    Enchainements :
+        1 - L'utilisateur selectionne la zone de texte qu'il veut copier
+        2 - L'utilisateur copie ensuite la zone de texte à l'aide d'une commande
+'/
+
+/' USECASE COUPER
+    But : Couper la selection
+    Début : L'utilisateur veut coupé une zone du texte
+    Fin : L'utilisateur a coupé
+    Acteurs : Utilisateur
+    Enchainements :
+        1 - L'utilisateur selectionne la zone de texte qu'il veut couper
+        2 - L'utilisateur copie ensuite la zone de texte
+        3 - Le logiciel supprime le texte dans la zone selectionné
+'/
+
+/' USECASE SELECTION DE TEXTE
+    But : Selectionner du texte
+    Début : L'utilisateur veut selectionner une zone du texte
+    Fin : L'utilisateur a selectionné une zone de texte
+    Acteurs : Utilisateur
+    Enchainements :
+        1 - L'utilisateur place le curseur de début au bon endroit
+        2 - L'utilisateur place le curseur de fin au bon endroit
+'/
