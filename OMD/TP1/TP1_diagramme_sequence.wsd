@@ -1,0 +1,49 @@
+@startuml Diagramme sequence acces aux info du film
+
+title acces aux informations du film
+
+Client -> Systeme : demande d'informations
+
+group info existantes
+    Systeme -> Client : envoie les informations
+end
+
+group info inexistantes
+    Systeme -> Client : envoie une page d'erreur
+end
+@enduml
+
+
+@startuml Diagramme sequence reservation
+
+title reservation
+
+loop jusqu'a reussite ou abandon
+    Client -> Systeme : Seance
+    Client -> Systeme : Nombre de place
+    Systeme -> Systeme : Verification place disponible
+end
+
+loop 3 fois
+    Systeme -> Client : Demande de connexion
+    Client -> Systeme : Identifiant unique/ e-mail
+    Systeme->Systeme : verification identifiant
+end
+
+Systeme -> Client : Demande des tarifs
+Client -> Systeme : tarifs
+Systeme -> Systeme : calcul tarif total
+Systeme -> Client : demande de paiement
+Client -> Paiement : Paye
+
+alt accepter
+    Paiement -> Systeme : Validation
+    Systeme -> Client : confirmation par mail
+else refuser
+        Paiement -> Systeme : refus
+    Systeme -> Client : abandon conservation
+end
+
+
+
+@enduml

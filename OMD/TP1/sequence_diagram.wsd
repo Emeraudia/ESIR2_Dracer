@@ -1,0 +1,91 @@
+@startuml
+/'
+    Planing
+'/
+title Planing
+
+actor Employee as employe
+participant System as systeme
+participant Liste_de_Films as film
+activate employe
+activate systeme
+activate film
+activate Planing
+employe -> systeme : envoyer un planning
+deactivate employe
+systeme -> film : getList()
+systeme <- film : returnList()
+systeme -> systeme : checkPlanning
+systeme -> Planing : update(planing)
+@enduml
+
+@startuml
+/'
+    tarif
+'/
+title tarif
+
+actor Employee as employe
+participant System as systeme
+activate employe
+activate systeme
+employe -> systeme : envoyer tarif
+systeme -> systeme : checkTarif()
+@enduml
+
+@startuml
+/'
+    verif
+'/
+title Verification
+
+actor Client as client
+actor Employee as employe
+participant System as systeme
+activate client
+activate employe
+activate systeme
+client <- employe : demande ticket
+client -> employe : donne ticket
+employe -> systeme : scan le ticket
+systeme -> systeme : verifie ticket
+employe <- systeme : demande vérification des documents
+client <- employe : demande document
+client -> employe : montre document
+employe -> systeme : valide document
+systeme -> systeme : valide le ticket
+
+@enduml
+
+@startuml
+/'
+    creation de compte
+'/
+title Compte
+actor Client
+activate Client
+activate System
+Client -> System : imformation personnelles
+System -> System : verif info
+System -> CompteClient : créer un compte + un identifiant
+activate CompteClient
+Client <- System : Envoie confirmation par mail
+
+@enduml
+
+@startuml
+/'
+    Voir infos film
+'/
+title Information film
+actor Client
+activate Client
+activate System
+Client -> System : Demande infos pour un film
+System --> Liste_de_Films : cherche le film
+System <-- Liste_de_Films : renvoie les informations du film
+System --> Planing : cherche le film
+System <-- Planing : renvoie le planing du film
+Client <- System : Envoie les informations
+
+@enduml

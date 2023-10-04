@@ -1,0 +1,54 @@
+'Création d'un film
+@startuml createFilm
+title Création d'un film
+
+actor "Administrateur" as admin
+participant "Système" as s
+database "Base de données" as data
+
+admin -> s : Enregistre un nouveau film
+activate s
+activate admin
+admin -> s : Réalisateur (nom, prénom)
+s --> data  : Ajout d'une personne
+activate data
+admin -> s : Acteurs (nom, prénom)
+s --> data : Ajout d'une personne
+activate data
+admin -> s : Informations film (Titre, Durée, Genre, ...)
+s --> data : Ajout d'un film
+activate data
+s -> admin : Confirmation de l'ajout
+deactivate s
+deactivate admin
+@enduml
+
+@startuml payment
+title Paiement par carte
+actor Client as c
+participant Banque as b
+participant Système as s
+
+s -> c : Demande de paiement
+activate c
+c -> b : Envoie des coordonées bancaires
+b -> b : Vérification
+b -> s : Envoie le résultat
+s -> c : Accepte le paiement
+deactivate c
+@enduml
+
+@startuml
+title Reservation une séance (Sans échec)
+
+actor Client as c
+participant Système as s
+participant Banque as b
+
+activate c
+c -> s : Demande un reservation
+c -> 
+
+
+
+@enduml

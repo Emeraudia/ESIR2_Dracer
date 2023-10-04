@@ -1,0 +1,149 @@
+@startuml
+
+left to right direction
+actor "Client" as client
+actor "Employe" as employe
+actor "Banque" as banque
+
+rectangle Cinema {
+
+    usecase "informations d'une séance" as infos
+    usecase "Creer un compte" as compte
+    usecase "Identification / Reserveation" as reserver
+    usecase "paiement par carte" as payer
+    
+
+    usecase "update planning" as update
+    usecase "update tarif" as tarif
+    usecase "verifier informations" as verif
+
+}
+
+client -- infos
+client -- compte
+client -- reserver
+client -- payer
+
+
+employe -- update
+employe -- tarif
+employe -- verif
+
+payer -- banque
+
+reserver ..> payer: <<include>>
+infos <.. reserver : <<extend>>
+@enduml
+
+/' USECASE INFORMATION SEANCE 
+    But : Le client obtient toutes les informations à propos d'une séance (heure / film / tarif)
+    Début : le Client cherche les information depuis le site web / la borne 
+    Fin : Le Client à obtenu les informations
+    Acteurs : CLient
+    Enchainements :
+        1 - L'utilisateur demande les informations
+        2 - le système lui envoie les informations (heure / film / tarif)
+    Alternatives : 
+    Excpetions : 
+        Le système ne dispose pas des information de l'étape de 2
+'/
+
+/' USECASE CREER UN COMPTE
+    But : un utilisateur sans compte, créer un compte et obtient un identifiant unique
+    Début : le client vas sur la page de création de compte
+    Fin : le client à creer un compte
+    Acteurs : Client
+    Enchainements :
+        1 - L'utilisateur fournis ses informations (nom, prénom, email, date de naissance et mdp)
+        2 - Le système vérifie si les informations sont corrects
+        3 - Le système créer un nouveau compte pour le client et génère le numéro unique
+        4 - Le système envoie une confirmation par mail
+    Alternatives :
+        le mdp n'est pas valide à l'étape 2, le système redemande un mdp
+    Exceptions :  
+        l'adresse mail est déjà utiliser à l'étape 2, le système demande de se connecter
+        l'utilisateur n'est pas majeur à l'étape 2, la création de compte est annulée
+'/
+
+/' USECASE RESERVER UNE SEANCE
+    But : L'utilisateur réserve une/plusieurs séance pour 1 film
+    Début : Le client est sur la page de réservation du film
+    Fin : La réservation est envoyé par mail
+    Acteurs : Client
+    Enchainements :
+        01 - Le client choisis la séance et le nombre de place
+        02 - Le système vérifie si la réservation est possible
+        03 - Le système demande au client de s'identifier
+        04 - Le client s'identifie
+        05 - Le système vérifie le compte
+        06 - Le système demande les tarif
+        07 - Le client choisis le tarif pour chacun des siege
+        08 - Le système calculs le tarif total
+        09 - Le système demande de payer
+        10 - Le client procède au paiement (USE CASE PAIEMENT)
+        11 - Le système envoie une confirmation par mail
+    Alternatives :
+        02 - le nombre de plae excède la capacité, le système demande une nouvelle valeurs
+        05 - l'identifiant / mail est invalide, le système redemande
+
+    Exceptions :
+        10 - le paiement est rejeté
+'/
+
+/' USECASE PAIEMENT
+    But : Le client paie un montant donner à la banque
+    Début : Le client est sur la page de paiement avec un montant donné
+    Fin : La banque valide la paiement
+    Acteurs : Client, Banque
+    Enchainements :
+        1 - Le système redirige le Client vers la page de paiement avec le montant donné
+        2 - Le client indique ses coordonnées bancaire 
+        3 - La banque vérifie la possibilitée de paiement
+        4 - La banque envoie au système une validation du paiement
+    Alternatives :
+    Exceptions :
+        3 - Le paiement est rejeté
+'/
+
+/' USECASE UPDATE PLANNING
+    But : Mettre à jours les séances de chaque film
+    Début : L'employé est sur l'interface de gestion des séances
+    Fin : L'employé quitte l'interface
+    Acteurs : Employé
+    Enchainements :
+        1 - L'employé rentre le nouveau planning dans le système
+        2 - Le système vérifie la cohérence du planning
+    Alternatives :
+    Exceptions :
+        2 - le planning n'est pas cohérent
+'/
+
+/' USECASE UPDATE TARIF
+    But : Modifier les tarification
+    Début : L'employé est dans le système
+    Fin : L'employé quitte le système
+    Acteurs : Employé
+    Enchainements :
+        1 - L'employé rentre les nouveaux tarrif
+        2 - Le système vérifie la cohérence des tarif
+    Alternatives :
+    Exceptions :
+        2 - les tarifs ne sont pas cohérent
+'/
+
+/' USECASE EMPLOYE VERIF
+    But : verifier les information du client avant la séance
+    Début : le client se présente
+    Fin : les information sont correcte
+    Acteurs : Employe CLient
+    Enchainements :
+        1 - L'employe demande le ticket
+        2 - L'employe demande onfirmation au systeme
+        3 - Le systeme verifie les informations
+        4 - Le systeme demande la vérification des documents nécessaire
+        5 - l'employee verifie les document
+    Alternatives :
+    Exceptions :
+    2 - les informations ne sont pas correct
+    4 - les documents ne sont pas corrects
+'/

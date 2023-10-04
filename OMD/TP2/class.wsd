@@ -1,0 +1,50 @@
+@startuml
+
+class Application {
+ 
+}
+
+class ZoneDeTravail {
+    String Texte
+    Int posCursor1
+    Int posCursor2
+
+    moveCursor(int nbCursor, int offset)
+}
+
+class Input {
+    keyPressed()
+}
+
+abstract Command {
+    Execute()
+}
+
+class MoveCursor1 {
+    Int offset
+    Execute()
+}
+class MoveCursor2 {
+    Int offset
+    Execute()
+}
+
+class InsertChar {
+    char caracter
+    Execute()
+}
+
+Application "1" *-- "1" ZoneDeTravail
+Application *-- Input
+Input *-- Command
+
+Command <|-- MoveCursor1
+Command <|-- MoveCursor2
+Command <|-- InsertChar
+
+ZoneDeTravail -- MoveCursor1
+ZoneDeTravail -- MoveCursor2
+ZoneDeTravail -- InsertChar
+
+Command *-- InsertChar : MoveCursor
+@enduml

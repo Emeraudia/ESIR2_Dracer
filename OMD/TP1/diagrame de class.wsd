@@ -1,0 +1,88 @@
+@startuml
+abstract Personne {
+    String Nom
+    String Prenom
+    date naissance
+}
+
+
+
+class Client {
+    Int identifiant
+    String mail
+    Int point_fidelite
+
+    String getInformation()
+    Reserver(Film, nb_place, date)
+}
+
+
+class Personnel {
+    Liste[Film] GetDistribution()
+    SetDistribution(Liste[Film])
+
+    addSeance(Film,date,horaire,duree,nbsalle)
+
+    SetTarif(Liste[Int])
+
+    VerifierBillet()
+}
+
+
+
+
+class System{
+    Liste[String,Int] Tarif  
+    Liste[Reservation,Seance] Billets
+    RedirectPayement() 
+}
+
+
+class Seance {
+    Date horaire
+    Int dureeMinute
+}
+
+
+class Salle {
+    String type
+    Int nb_place
+    int id_salle
+}
+
+class Film {
+    String Titre
+    date sortie
+    int duree
+    String PublicCible
+}
+
+
+class Reservation {
+    int nb_place
+    int prix
+
+    verifDisponibilite()
+}
+
+
+Personne <|-- Client
+Personne <|-- Personnel
+
+System "1" *-- "*" Client : Liste de clients
+System "1" *-- "*" Personnel : Liste du Personnel
+System "1" *-- "*" Seance : Planing
+System "1" *-- "*" Film : Distribution
+System "1" *-- "1..N" Salle : Liste des salles
+
+Seance "1" -- "1" Film : Film
+Seance "1" -- "1" Salle : salle
+
+Film "1" *-- "1..N" Personne : Realisateur
+Film "1" *-- "1..N" Personne : Acteurs
+
+Client "1" -- "*" Reservation : Réservation
+
+Reservation "*" --* "1" System : Liste des réservations
+
+@enduml
