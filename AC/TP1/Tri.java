@@ -4,7 +4,15 @@ public class Tri {
 	 * cf TD1 exo 2
 	 */
 	public static void triInsertion(int[] t){
-		//A FAIRE
+		for(int j = 1 ; j < t.length ; j++){
+			int k = t[j];
+			int i = j-1;
+			while( i >= 0 && t[i] > k){
+				t[i+1] = t[i];
+				i--;
+			}
+			t[i+1] = k;
+		}
 	}
 	
 	/*Tri le tableau t via la méthode "Tri fusion"
