@@ -31,8 +31,8 @@ public class Mesure_Tri {
 		
 		//A FAIRE : adapter les 3 valeurs suivantes pour avoir des mesures significatives
 		// surtout la valeurs de la variable taille_fin
-		int taille_init = 10000000;
-		int taille_fin  = 100000000;
+		int taille_init = 10000;
+		int taille_fin  = 100000;
 		int nbrMesures = 30;
 		
 		int taille_incr = (taille_fin-taille_init)/(nbrMesures-1);
@@ -45,7 +45,27 @@ public class Mesure_Tri {
 
 			//A FAIRE : initialisation de t
 			for(int k=0;k<t.length;k++)	{ 
-				t[k] = k;
+				//croissant
+				/*
+				 * use size :
+				 * 10000000
+				 * 100000000
+				 */
+				//t[k] = k;
+				/*
+				 * use size :
+				 * 10000
+				 * 100000
+				 */
+				//décroissant
+				//t[k] = n+1-k;
+				//aléatoire
+				/*
+				 * use size :
+				 * 10000
+				 * 100000
+				 */
+				t[k]=(int) (Math.random()*n);
 			}
 			long date1 = System.currentTimeMillis(); //on lance le chrono
 			Tri.triInsertion(t); //on trie le tableau 
