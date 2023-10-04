@@ -89,8 +89,8 @@ public class Mesure_Tri {
 			System.out.print("Entrez le coefficient de la droite/parabole/nLogn : ");
 			if (in.hasNextDouble()) {
 				a = in.nextDouble();
-				g.addLine(a);
-				// g.addQuadratic(a);
+				//g.addLine(a);
+				 g.addQuadratic(a);
 				// g.addnLogn(a);
 			}
 			else
