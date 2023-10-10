@@ -1,0 +1,58 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@startuml InsertChar
+title Diagramme sequence InsertChar
+actor User as user
+participant Application as app
+participant Input as input
+participant InsertChar as insert
+participant ZoneDeTravail as text
+
+user -> app : Appuie sur une touche
+activate user
+app -> input : Touche appuyée
+
+input -> insert : Invoque la commande
+activate insert
+
+insert -> input : Demande le caractère
+input -> insert : Renvoie le dernier caractère
+insert -> text : Insere le caractère
+deactivate insert
+deactivate user
+
+
+
+
+@enduml
