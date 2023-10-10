@@ -1,0 +1,32 @@
+@startuml sequence cut
+title Diagramme sequence cut
+actor User
+participant Application
+participant Input
+participant Cut
+participant Copy
+participant Delete
+participant Zone_de_travail
+
+activate Zone_de_travail
+activate User
+activate Application
+User -> Application : keys
+
+Application -> Input : keys
+activate Input
+Input -> Cut : KeyPressed()
+activate Cut
+deactivate Input
+Cut -> Copy : Execute()
+activate Copy
+Cut -> Delete : Execute()
+activate Delete
+deactivate Cut
+
+Copy -> Zone_de_travail : copier le texte
+deactivate Copy
+Delete -> Zone_de_travail : supprimer le texte
+deactivate Zone_de_travail
+
+@enduml
