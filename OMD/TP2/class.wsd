@@ -1,4 +1,7 @@
 @startuml
+skinparam groupInheritance 4
+skinparam Linetype polyline
+
 
 class Application {
  
@@ -6,10 +9,15 @@ class Application {
 
 class ZoneDeTravail {
     String Texte
+    String Buffer
     Int posCursor1
     Int posCursor2
 
     moveCursor(int nbCursor, int offset)
+    copy()
+    paste()
+    delete()
+    Insertchar(char a)
 }
 
 class Input {
@@ -29,22 +37,45 @@ class MoveCursor2 {
     Execute()
 }
 
+class Copy {
+    Execute()
+}
+
+class Delete{
+    Execute()
+}
+
+class Paste {
+    Execute()
+}
+
+class Cut {
+    Execute()
+}
+
 class InsertChar {
     char caracter
     Execute()
+    getKey()
 }
 
 Application "1" *-- "1" ZoneDeTravail
 Application *-- Input
 Input *-- Command
+ZoneDeTravail -- Command
 
-Command <|-- MoveCursor1
-Command <|-- MoveCursor2
-Command <|-- InsertChar
+Command <|--- MoveCursor1
+Command <|--- MoveCursor2
+Command <|--- Delete
+Command <|--- Copy
 
-ZoneDeTravail -- MoveCursor1
-ZoneDeTravail -- MoveCursor2
-ZoneDeTravail -- InsertChar
+Command <|--- Paste
+Command <|--- Cut
+Command <|--- InsertChar
 
-Command *-- InsertChar : MoveCursor
+Command --* Cut : Copy, Delete
+Command --* InsertChar : Delete
+Command --* Paste : Delete
+Input -- InsertChar : getKey
+
 @enduml
