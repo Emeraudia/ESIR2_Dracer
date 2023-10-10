@@ -31,8 +31,8 @@ public class Mesure_Tri {
 		
 		//A FAIRE : adapter les 3 valeurs suivantes pour avoir des mesures significatives
 		// surtout la valeurs de la variable taille_fin
-		int taille_init = 10000;
-		int taille_fin  = 100000;
+		int taille_init = 100000;
+		int taille_fin  = 1000000;
 		int nbrMesures = 30;
 		
 		int taille_incr = (taille_fin-taille_init)/(nbrMesures-1);
@@ -64,11 +64,15 @@ public class Mesure_Tri {
 				 * use size :
 				 * 10000
 				 * 100000
+				 * 
+				 * tri fusion size:
+				 * 100000
+				 * 1000000
 				 */
 				t[k]=(int) (Math.random()*n);
 			}
 			long date1 = System.currentTimeMillis(); //on lance le chrono
-			Tri.triInsertion(t); //on trie le tableau 
+			Tri.triFusion(t); //on trie le tableau 
 			long date2 = System.currentTimeMillis(); //on arrête le chrono
 			tab_temps.add((int)(date2 - date1)); //on sauvegarde le temps
 			System.out.println("Temps de calcul pour n="+n+" : "+ tab_temps.get(tab_temps.size()-1)+" millisecondes.");
@@ -90,8 +94,8 @@ public class Mesure_Tri {
 			if (in.hasNextDouble()) {
 				a = in.nextDouble();
 				//g.addLine(a);
-				 g.addQuadratic(a);
-				// g.addnLogn(a);
+				//g.addQuadratic(a);
+				g.addnLogn(a);
 			}
 			else
 				System.out.println(in.next()+" n'a pas été reconnu comme un double.");
