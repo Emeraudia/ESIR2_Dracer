@@ -12,6 +12,8 @@ Delete delete = new Delete();
 Copy copy = new Copy();
 Paste paste = new Paste();
 Cut cut = new Cut();
+MoveCursor1 leftCursor1 = new MoveCursor1(-1);
+MoveCursor1 rightCursor1 = new MoveCursor1(1);
 
 protected Input(){
 
@@ -23,6 +25,7 @@ public static Input getInstance(){
     }
     return singleton;
 }
+
 
 
 
@@ -48,9 +51,15 @@ public void keyPressed(KeyEvent e) {
         insert.Execute();
     }
 
+    if(e.getKeyCode() == 37)
+    {
+        leftCursor1.Execute();
+    }
 
-
-    
+    if(e.getKeyCode() == 39)
+    {
+        rightCursor1.Execute();
+    }
 
 
     
