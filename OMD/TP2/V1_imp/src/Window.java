@@ -39,7 +39,20 @@ public class Window {
   }
 
   private void printToWindow(){
-        l.setText(ZoneDeTravail.getInstance().getTexte());
+      ZoneDeTravail insDeTravail = ZoneDeTravail.getInstance();
+        
+      String txt = insDeTravail.getTexte();
+      int pos1 = insDeTravail.getCursor1position();
+      int pos2 = insDeTravail.getCursor2position();
+
+      String newTxt = "";
+      for(int i = 0 ; i < txt.length()+1 ; i++){
+        if(i == pos1) newTxt += '|';
+        else if(i == pos2) newTxt += '|';
+        if(i < txt.length())newTxt += txt.charAt(i);
+      }
+      l.setText(newTxt);
+        
   }
     
 }
