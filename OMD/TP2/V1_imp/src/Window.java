@@ -29,7 +29,6 @@ public class Window {
 
   public void printToWindow(String s){
         l.setText(s);
-        f.add(l);
   }
     
 }
