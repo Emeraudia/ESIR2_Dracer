@@ -4,6 +4,5 @@ public class App {
 
         Input key = new Input();
         Window w = new Window(key);
-
     }
 }
