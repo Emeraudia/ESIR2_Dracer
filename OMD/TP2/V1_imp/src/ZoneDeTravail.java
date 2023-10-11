@@ -18,7 +18,7 @@ public class ZoneDeTravail {
     /*
      * Singleton getInstance de la class
      */
-    public ZoneDeTravail getInstance()
+    public static ZoneDeTravail getInstance()
     {
         if(s_Instance == null){
             s_Instance = new ZoneDeTravail();
@@ -96,5 +96,15 @@ public class ZoneDeTravail {
     public String getTexte()
     {
         return m_Texte;
+    }
+
+    public int getCursor1position()
+    {
+        return m_posCursor1;
+    }
+
+    public int getCursor2position()
+    {
+        return m_posCursor2;
     }
 }
