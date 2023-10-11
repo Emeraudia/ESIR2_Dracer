@@ -90,5 +90,6 @@ Command --* Cut : Copy, Delete
 Command --* InsertChar : Delete
 Command --* Paste : Delete
 Input -- InsertChar : getKey
+Window -- ZoneDeTravail
 
 @enduml
