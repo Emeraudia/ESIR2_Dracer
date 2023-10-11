@@ -9,7 +9,9 @@ char key = ' ';
 
 InsertChar insert = new InsertChar();
 Delete delete = new Delete();
-
+Copy copy = new Copy();
+Paste paste = new Paste();
+Cut cut = new Cut();
 
 protected Input(){
 
@@ -28,15 +30,20 @@ public static Input getInstance(){
 @Override
 public void keyPressed(KeyEvent e) {
 
-    // la touche backspace appele la commande delete
-    if(e.getKeyCode() == 8){
+    
+    if(e.getKeyCode() == 8){ // la touche backspace appele la commande delete
         delete.Execute();
     }
-    else if(e.getModifiers() == e.CTRL_MASK && e.getKeyCode() == 67){
-    
-        System.out.println("copier");
+    else if(e.getModifiers() == KeyEvent.CTRL_MASK && e.getKeyCode() == 67){ // ctrl+c, lance la copie
+        copy.Execute();
     }
-    else if(((e.getKeyCode() >= 44 && e.getKeyCode()<= 111) || e.getKeyCode()==32) && e.getModifiers() == 0){
+    else if(e.getModifiers() == KeyEvent.CTRL_MASK && e.getKeyCode() == 76){ // ctrl+v, lance le collage
+        paste.Execute();
+    }
+    else if(e.getModifiers() == KeyEvent.CTRL_MASK && e.getKeyCode() == 78){// ctrl+x, lance le coupage
+        cut.Execute();
+    }
+    else if(((e.getKeyCode() >= 44 && e.getKeyCode()<= 111) || e.getKeyCode()==32) && e.getModifiers() == 0){// le reste des touches
         key = e.getKeyChar();
         insert.Execute();
     }
