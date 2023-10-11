@@ -11,6 +11,7 @@ public class InsertChar implements Command {
      */
     public void Execute() {
         m_delete.Execute();
+        ZoneDeTravail.getInstance().InsertChar(Input.getInstance().getKey());
         
     }
 }

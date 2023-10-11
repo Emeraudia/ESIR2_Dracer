@@ -3,23 +3,48 @@ import java.awt.event.KeyListener;
 
 class Input implements KeyListener {
 
+char key = ' ';
+private static Input singleton;
+
+protected Input(){
+
+}
+
+public static Input getInstance(){
+    if(singleton == null){
+        singleton = new Input();
+    }
+    return singleton;
+}
+
+InsertChar insert = new InsertChar();
+
 
 @Override
 public void keyPressed(KeyEvent e) {
-    // TODO Auto-generated method stub
-    System.out.println("The key Typed was: " + e.getKeyChar());
+
+
+    if((e.getKeyCode() >= 65 && e.getKeyCode()<= 90) || (e.getKeyCode() >= 97 && e.getKeyCode()<= 122) ){
+        key = e.getKeyChar();
+        insert.Execute();
+    }
+    
+    Window.getInstance().update();
     
 }
 
 @Override
 public void keyReleased(KeyEvent e) {
-    // TODO Auto-generated method stub
    
 }
 
 @Override
 public void keyTyped(KeyEvent e) {
-    // TODO Auto-generated method stub
     
 }
+
+public char getKey(){
+    return key;
+}
+
 }
