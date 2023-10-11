@@ -36,11 +36,13 @@ public class ZoneDeTravail {
         if(nbCursor == 1) {
             if(m_posCursor1 == m_posCursor2) moveCursor(2, offset);
             m_posCursor1 += offset;
-            if(m_posCursor1 <= 0) m_posCursor1 = 0;
+            if(m_posCursor1 < 0) m_posCursor1 = 0;
+            if(m_posCursor1 > m_Texte.length()) m_posCursor1 = m_Texte.length();
         }
         else {
             m_posCursor2 += offset;
             if(m_posCursor2 <= 0) m_posCursor2 = 0;
+            if(m_posCursor2 > m_Texte.length()) m_posCursor2 = m_Texte.length();
         }
     }
 

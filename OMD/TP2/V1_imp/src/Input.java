@@ -18,6 +18,8 @@ public static Input getInstance(){
 }
 
 InsertChar insert = new InsertChar();
+MoveCursor1 leftCursor1 = new MoveCursor1(-1);
+MoveCursor1 rightCursor1 = new MoveCursor1(1);
 
 
 @Override
@@ -27,6 +29,16 @@ public void keyPressed(KeyEvent e) {
     if((e.getKeyCode() >= 65 && e.getKeyCode()<= 90) || (e.getKeyCode() >= 97 && e.getKeyCode()<= 122) ){
         key = e.getKeyChar();
         insert.Execute();
+    }
+
+    if(e.getKeyCode() == 37)
+    {
+        leftCursor1.Execute();
+    }
+
+    if(e.getKeyCode() == 39)
+    {
+        rightCursor1.Execute();
     }
     
     Window.getInstance().update();
