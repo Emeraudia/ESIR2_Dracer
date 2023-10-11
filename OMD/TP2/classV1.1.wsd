@@ -1,0 +1,94 @@
+@startuml classDiagram
+skinparam groupInheritance 4
+skinparam Linetype polyline
+
+
+class Application {
+ 
+}
+
+class Window {
+
+}
+
+class ZoneDeTravail {
+    ZoneDeTravail Instance
+
+    String Texte
+    String Buffer
+    Int posCursor1
+    Int posCursor2
+
+    moveCursor(int nbCursor, int offset)
+    copy()
+    paste()
+    delete()
+    Insertchar(char a)
+}
+
+class Input {
+    keyPressed()
+}
+
+abstract Command {
+    Execute()
+}
+
+abstract MoveCursor {
+    int cursor
+    int offset
+    Execute()
+}
+
+class MoveCursor1 {
+    Execute()
+}
+class MoveCursor2 {
+    Execute()
+}
+
+class Copy {
+    Execute()
+}
+
+class Delete{
+    Execute()
+}
+
+class Paste {
+    Execute()
+}
+
+class Cut {
+    Execute()
+}
+
+class InsertChar {
+    char caracter
+    Execute()
+    getKey()
+}
+
+Application "1" *-- "1" ZoneDeTravail
+Application *-- Input
+Application *-- Window
+Input *-- Command
+ZoneDeTravail -- Command
+
+Command <|--- MoveCursor
+Command <|--- Delete
+Command <|--- Copy
+
+Command <|--- Paste
+Command <|--- Cut
+Command <|--- InsertChar
+
+MoveCursor <|-- MoveCursor1
+MoveCursor <|-- MoveCursor2
+
+Command --* Cut : Copy, Delete
+Command --* InsertChar : Delete
+Command --* Paste : Delete
+Input -- InsertChar : getKey
+
+@enduml
