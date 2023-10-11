@@ -1,4 +1,4 @@
-@startuml
+@startuml useCase
 
 left to right direction
 actor "User" as Us

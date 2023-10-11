@@ -1,4 +1,4 @@
-@startuml
+@startuml classDiagram
 skinparam groupInheritance 4
 skinparam Linetype polyline
 
