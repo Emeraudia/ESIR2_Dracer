@@ -14,11 +14,11 @@ public class Window {
     f.setSize(500, 500);
 
     l = new JLabel();
+
     printToWindow();
+    f.addKeyListener(Input.getInstance());
     f.add(l);
     f.setVisible(true);
-    f.addKeyListener(Input.getInstance());
-
     f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   }
 

@@ -11,7 +11,7 @@ public class Paste implements Command {
      */
     public void Execute() {
         m_delete.Execute();
-        
+        ZoneDeTravail.getInstance().paste();
     }
 
     

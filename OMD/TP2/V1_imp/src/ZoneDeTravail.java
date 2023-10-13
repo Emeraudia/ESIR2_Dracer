@@ -59,6 +59,7 @@ public class ZoneDeTravail {
             m_Buffer = m_Texte.substring(minPos, maxPos);
         }
         else m_Buffer = "";
+
     }
 
     /**
@@ -68,17 +69,24 @@ public class ZoneDeTravail {
     public void paste()
     {
         assert(m_posCursor1 == m_posCursor2);
-        if(m_Buffer != "") m_Texte = m_Texte.substring(0, m_posCursor1) + m_Buffer + m_Texte.substring(m_posCursor1+1);
+        if(!m_Buffer.equals("")) {
+            if(m_posCursor1 == m_Texte.length()) m_Texte = m_Texte.substring(0, m_posCursor1) + m_Buffer;
+            else m_Texte = m_Texte.substring(0, m_posCursor1) + m_Buffer + m_Texte.substring(m_posCursor1);
+        }
+        moveCursor(1, m_Buffer.length());
     }
 
     /**
      * supprime le contenue du texte entre les 2 curseurs
+     * si les curseurs sont au meme endroit, supprime le caractere precedent
      */
     public void delete()
     {
         int minPos = Math.min(m_posCursor1,m_posCursor2);
         int maxPos = Math.max(m_posCursor1,m_posCursor2);
         m_Texte = m_Texte.substring(0, minPos) + m_Texte.substring(maxPos);
+        m_posCursor1 = minPos;
+        m_posCursor2 = minPos;
     }
 
     /**
