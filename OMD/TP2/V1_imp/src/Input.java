@@ -17,7 +17,6 @@ MoveCursor1 rightCursor1 = new MoveCursor1(1);
 MoveCursor2 leftCursor2 = new MoveCursor2(-1);
 MoveCursor2 rightCursor2 = new MoveCursor2(1);
 
-
 protected Input(){
 
 }
@@ -36,56 +35,49 @@ public static Input getInstance(){
 @Override
 public void keyPressed(KeyEvent e) {
 
-    // la touche backspace appele la commande delete
-    if(e.getKeyCode() == 8){
+
+    
+    if(e.getKeyCode() == 8){// la touche backspace appele la commande delete
         ZoneDeTravail z = ZoneDeTravail.getInstance();
         if(z.getCursor1position() == z.getCursor2position()){
             z.moveCursor(0, -1);
         }
         delete.Execute();
     }
-    else if(e.getModifiers() == e.CTRL_MASK && e.getKeyCode() == 67){
-    
-        System.out.println("copier");
+    else if(e.getModifiers() == KeyEvent.CTRL_MASK && e.getKeyCode() == 67){ // ctrl+c, lance la copie
         copy.Execute();
-        
     }
-    else if(e.getModifiers() == e.CTRL_MASK && e.getKeyCode() == 86){
-    
-        System.out.println("coller");
+    else if(e.getModifiers() == KeyEvent.CTRL_MASK && e.getKeyCode() == 86){ // ctrl+v, lance le collage
         paste.Execute();
     }
-    else if(e.getModifiers() == e.CTRL_MASK && e.getKeyCode() == 88){
-    
-        System.out.println("couper");
+    else if(e.getModifiers() == KeyEvent.CTRL_MASK && e.getKeyCode() == 88){// ctrl+x, lance le coupage
         cut.Execute();
     }
-    
 
-    
-    else if(e.getModifiers() == e.CTRL_MASK && e.getKeyCode() == 37)
+    else if(e.getModifiers() == e.CTRL_MASK && e.getKeyCode() == 37)// ctrl+<-, curseur secondaire vers la gauche
     {
         leftCursor2.Execute();
     }
-    else if(e.getKeyCode() == 37)
+    else if(e.getKeyCode() == 37)// <-, curseur principal vers la gauche
     {
         leftCursor1.Execute();
     }
 
     
-    if(e.getModifiers() == e.CTRL_MASK && e.getKeyCode() == 39)
+    else if(e.getModifiers() == e.CTRL_MASK && e.getKeyCode() == 39)// ctrl+->, curseur secondaire vers la droite
     {
         rightCursor2.Execute();
     }
-    else if(e.getKeyCode() == 39)
+    else if(e.getKeyCode() == 39)// ->, curseur principal vers la gauche
     {
         rightCursor1.Execute();
     }
 
 
-    else if(((e.getKeyCode() >= 44 && e.getKeyCode()<= 111) || e.getKeyCode()==32) && (e.getModifiers() == 0 || e.getModifiers() == e.SHIFT_MASK)){
+    else if(((e.getKeyCode() >= 44 && e.getKeyCode()<= 111) || e.getKeyCode()==32) && e.getModifiers() == 0){// le reste des touches
         key = e.getKeyChar();
         insert.Execute();
+
     }
     
     Window.getInstance().update();
