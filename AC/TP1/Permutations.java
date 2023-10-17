@@ -24,7 +24,7 @@ public class Permutations {
 		int n=0;
 		String y=alphabet.substring(0, n);
 
-		int iter = 10;
+		int iter = 12;
 
 		List<Integer> tab_tailles = new ArrayList<Integer>();
 		List<Integer> tab_temps = new ArrayList<Integer>();
