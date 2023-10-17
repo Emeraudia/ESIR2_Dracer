@@ -96,8 +96,10 @@ public class ZoneDeTravail {
      */
     public void InsertChar(char a)
     {
-        if(m_posCursor1 == m_Texte.length()) m_Texte = m_Texte.substring(0, m_posCursor1) + a;
+        if(m_posCursor1 == m_Texte.length()) m_Texte = m_Texte.substring(0, m_posCursor1) + a ;
         else m_Texte = m_Texte.substring(0, m_posCursor1) + a + m_Texte.substring(m_posCursor1);
+
+
 
         moveCursor(1, 1);
     }
