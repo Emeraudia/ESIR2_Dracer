@@ -1,0 +1,116 @@
+@startuml classDiagram
+skinparam groupInheritance 4
+skinparam Linetype polyline
+
+
+class Application {
+ 
+}
+
+class ZoneDeTravail {
+    String Texte
+    String Buffer
+    Int posCursor1
+    Int posCursor2
+
+    moveCursor(int nbCursor, int offset)
+    copy()
+    paste()
+    delete()
+    Insertchar(char a)
+
+    Save():Memento
+    Restore(m Memento)
+    
+}
+
+class Input {
+    keyPressed()
+}
+
+abstract Command {
+    Execute()
+}
+
+
+class MoveCursor1 {
+    Int offset
+    Execute()
+}
+class MoveCursor2 {
+    Int offset
+    Execute()
+}
+
+class Copy {
+    Execute()
+}
+
+class Delete{
+    Execute()
+}
+
+class Paste {
+    Execute()
+}
+
+class Cut {
+    Execute()
+}
+
+class InsertChar {
+    char caracter
+    Execute()
+    getKey()
+}
+
+class Undo {
+    Execute()
+}
+
+class Forward {
+    Execute()
+}
+
+interface Memento {
+    
+}
+
+class Sauvegarde {
+    state: ZoneDeTravail
+}
+
+class Historique {
+    undo()
+    forward()
+}
+
+Application "1" *-- "1" ZoneDeTravail
+Application *-- Input
+Input *-- Command
+ZoneDeTravail -- Command
+Historique -- Command
+
+Command <|--- MoveCursor1
+Command <|--- MoveCursor2
+Command <|--- Delete
+Command <|--- Copy
+
+Command <|--- Paste
+Command <|--- Cut
+Command <|--- InsertChar
+
+Command <|--- Undo
+Command <|--- Forward
+
+Command --* Cut : Copy, Delete
+Command --* InsertChar : Delete
+Command --* Paste : Delete
+Input -- InsertChar : getKey
+
+ZoneDeTravail --> Memento : Create
+Memento <|-- Sauvegarde
+Historique "1" -- "*" Memento
+
+
+@enduml
