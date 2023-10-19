@@ -6,16 +6,19 @@ class Input implements KeyListener {
 private static Input singleton;
 
 char key = ' ';
+boolean saveInput = false;
+Script script = Script.getInstance();
 
-InsertChar insert = new InsertChar();
-Delete delete = new Delete();
-Copy copy = new Copy();
-Paste paste = new Paste();
-Cut cut = new Cut();
-MoveCursor1 leftCursor1 = new MoveCursor1(-1);
-MoveCursor1 rightCursor1 = new MoveCursor1(1);
-MoveCursor2 leftCursor2 = new MoveCursor2(-1);
-MoveCursor2 rightCursor2 = new MoveCursor2(1);
+Command insert = new InsertChar();
+Command delete = new Delete();
+Command copy = new Copy();
+Command paste = new Paste();
+Command cut = new Cut();
+Command leftCursor1 = new MoveCursor1(-1);
+Command rightCursor1 = new MoveCursor1(1);
+Command leftCursor2 = new MoveCursor2(-1);
+Command rightCursor2 = new MoveCursor2(1);
+Command useScript = new UseScript();
 
 protected Input(){
 
@@ -29,56 +32,58 @@ public static Input getInstance(){
 }
 
 
-
-
-
 @Override
 public void keyPressed(KeyEvent e) {
-
-
+    if(saveInput && e.getExtendedKeyCode() != KeyEvent.VK_F1){
+        script.add(e);
+    }
     
-    if(e.getKeyCode() == 8){// la touche backspace appele la commande delete
+    if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE){// la touche backspace appele la commande delete
         ZoneDeTravail z = ZoneDeTravail.getInstance();
         if(z.getCursor1position() == z.getCursor2position()){
             z.moveCursor(0, -1);
         }
         delete.Execute();
     }
-    else if(e.getModifiers() == KeyEvent.CTRL_MASK && e.getKeyCode() == 67){ // ctrl+c, lance la copie
+    else if(e.getModifiersEx() == KeyEvent.CTRL_DOWN_MASK && e.getKeyCode() == (int)('C')){ // ctrl+c, lance la copie
         copy.Execute();
     }
-    else if(e.getModifiers() == KeyEvent.CTRL_MASK && e.getKeyCode() == 86){ // ctrl+v, lance le collage
+    else if(e.getModifiersEx() == KeyEvent.CTRL_DOWN_MASK && e.getKeyCode() == (int)('V')){ // ctrl+v, lance le collage
         paste.Execute();
     }
-    else if(e.getModifiers() == KeyEvent.CTRL_MASK && e.getKeyCode() == 88){// ctrl+x, lance le coupage
+    else if(e.getModifiersEx() == KeyEvent.CTRL_DOWN_MASK && e.getKeyCode() == (int)('X')){// ctrl+x, lance le coupage
         cut.Execute();
     }
-
-    else if(e.getModifiers() == e.CTRL_MASK && e.getKeyCode() == 37)// ctrl+<-, curseur secondaire vers la gauche
+    else if(e.getModifiersEx() == KeyEvent.CTRL_DOWN_MASK && e.getKeyCode() == KeyEvent.VK_LEFT)// ctrl+<-, curseur secondaire vers la gauche
     {
         leftCursor2.Execute();
     }
-    else if(e.getKeyCode() == 37)// <-, curseur principal vers la gauche
+    else if(e.getKeyCode() == KeyEvent.VK_LEFT)// <-, curseur principal vers la gauche
     {
         leftCursor1.Execute();
     }
-
-    
-    else if(e.getModifiers() == e.CTRL_MASK && e.getKeyCode() == 39)// ctrl+->, curseur secondaire vers la droite
+    else if(e.getModifiersEx() == KeyEvent.CTRL_DOWN_MASK && e.getKeyCode() == KeyEvent.VK_RIGHT)// ctrl+->, curseur secondaire vers la droite
     {
         rightCursor2.Execute();
     }
-    else if(e.getKeyCode() == 39)// ->, curseur principal vers la gauche
+    else if(e.getKeyCode() == KeyEvent.VK_RIGHT)// ->, curseur principal vers la gauche
     {
         rightCursor1.Execute();
     }
-
-
-    else if(((e.getKeyCode() >= 44 && e.getKeyCode()<= 111) || e.getKeyCode()==32) && (e.getModifiers() == 0 || e.getModifiers() == e.SHIFT_MASK)){// le reste des touches
+    else if(((e.getKeyCode() >= 44 && e.getKeyCode()<= 111) || e.getKeyCode()==38) && (e.getModifiersEx() == 0 || e.getModifiersEx() == KeyEvent.SHIFT_DOWN_MASK)){// le reste des touches
         key = e.getKeyChar();
         insert.Execute();
 
     }
+    else if(e.getModifiersEx() == KeyEvent.CTRL_DOWN_MASK && e.getExtendedKeyCode() == KeyEvent.VK_F1){
+        saveInput = false;
+        useScript.Execute();
+    }
+    else if(e.getExtendedKeyCode() == KeyEvent.VK_F1) {
+        saveInput = !saveInput;
+        if(saveInput) script.newScript();
+    }
+    
     
     Window.getInstance().update();
     
