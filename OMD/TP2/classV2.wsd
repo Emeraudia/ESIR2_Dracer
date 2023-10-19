@@ -7,7 +7,14 @@ class Application {
  
 }
 
+class Window {
+    Window Instance
+
+}
+
 class ZoneDeTravail {
+    ZoneDeTravail Instance
+
     String Texte
     String Buffer
     Int posCursor1
@@ -32,13 +39,16 @@ abstract Command {
     Execute()
 }
 
+abstract MoveCursor {
+    int cursor
+    int offset
+    Execute()
+}
 
 class MoveCursor1 {
-    Int offset
     Execute()
 }
 class MoveCursor2 {
-    Int offset
     Execute()
 }
 
@@ -87,18 +97,21 @@ class Historique {
 
 Application "1" *-- "1" ZoneDeTravail
 Application *-- Input
+Application *-- Window
 Input *-- Command
 ZoneDeTravail -- Command
 Historique -- Command
 
-Command <|--- MoveCursor1
-Command <|--- MoveCursor2
+Command <|--- MoveCursor
 Command <|--- Delete
 Command <|--- Copy
 
 Command <|--- Paste
 Command <|--- Cut
 Command <|--- InsertChar
+
+MoveCursor <|-- MoveCursor1
+MoveCursor <|-- MoveCursor2
 
 Command <|--- Undo
 Command <|--- Forward
@@ -107,6 +120,7 @@ Command --* Cut : Copy, Delete
 Command --* InsertChar : Delete
 Command --* Paste : Delete
 Input -- InsertChar : getKey
+Window -- ZoneDeTravail
 
 ZoneDeTravail --> Memento : Create
 Memento <|-- Sauvegarde
