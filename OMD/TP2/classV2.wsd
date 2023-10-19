@@ -30,6 +30,10 @@ class Input {
     keyPressed()
 }
 
+class Script{
+    getListEvent()
+}
+
 abstract Command {
     Execute()
 }
@@ -69,6 +73,14 @@ class InsertChar {
     getKey()
 }
 
+class ToggleScript{
+    Execute()
+}
+
+class UseScript{
+    Execute()
+}
+
 Application "1" *-- "1" ZoneDeTravail
 Application *-- Input
 Application *-- Window
@@ -83,6 +95,9 @@ Command <|--- Paste
 Command <|--- Cut
 Command <|--- InsertChar
 
+Command <|--- ToggleScript
+Command <|--- UseScript
+
 MoveCursor <|-- MoveCursor1
 MoveCursor <|-- MoveCursor2
 
@@ -92,4 +107,7 @@ Command --* Paste : Delete
 Input -- InsertChar : getKey
 Window -- ZoneDeTravail
 
+Input "*" -- "1" Script : listEvent
+Input -- ToggleScript : toggleScript
+Script --* UseScript : listInput
 @enduml
