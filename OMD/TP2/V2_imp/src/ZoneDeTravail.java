@@ -1,22 +1,20 @@
 public class ZoneDeTravail {
     private static ZoneDeTravail s_Instance;
 
-    private String m_Texte;
-    private String m_Buffer;
+    private String m_text;
+    private String m_buffer;
     private int m_posCursor1;
     private int m_posCursor2;
 
     // constructor
     protected ZoneDeTravail() {
-        m_Texte = "";
-        m_Buffer = "";
+        m_text = "";
+        m_buffer = "";
         m_posCursor1 = 0;
         m_posCursor2 = 0;
     }
 
-    /*
-     * Singleton getInstance de la class
-     */
+    /** Recupere l'instance du singleton */
     public static ZoneDeTravail getInstance() {
         if (s_Instance == null) {
             s_Instance = new ZoneDeTravail();
@@ -49,7 +47,7 @@ public class ZoneDeTravail {
             if (m_posCursor2 > getTexte().length())
                 m_posCursor2 = getTexte().length();
         }
-        
+
     }
 
     /**
@@ -60,9 +58,9 @@ public class ZoneDeTravail {
         if (m_posCursor1 != m_posCursor2) {
             int minPos = Math.min(m_posCursor1, m_posCursor2);
             int maxPos = Math.max(m_posCursor1, m_posCursor2);
-            m_Buffer = getTexte().substring(minPos, maxPos);
+            m_buffer = getTexte().substring(minPos, maxPos);
         } else
-            m_Buffer = "";
+            m_buffer = "";
 
     }
 
@@ -72,13 +70,13 @@ public class ZoneDeTravail {
      */
     public void paste() {
         assert (m_posCursor1 == m_posCursor2);
-        if (!m_Buffer.equals("")) {
+        if (!m_buffer.equals("")) {
             if (m_posCursor1 == getTexte().length())
-                setTexte(getTexte().substring(0, m_posCursor1) + m_Buffer);
+                setTexte(getTexte().substring(0, m_posCursor1) + m_buffer);
             else
-                setTexte(getTexte().substring(0, m_posCursor1) + m_Buffer + getTexte().substring(m_posCursor1));
+                setTexte(getTexte().substring(0, m_posCursor1) + m_buffer + getTexte().substring(m_posCursor1));
         }
-        moveCursor(1, m_Buffer.length());
+        moveCursor(1, m_buffer.length());
     }
 
     /**
@@ -108,15 +106,16 @@ public class ZoneDeTravail {
     }
 
     /**
+     * Recupere le texte
      * 
      * @return le contenu du texte
      */
     public String getTexte() {
-        return m_Texte;
+        return m_text;
     }
 
-    private void setTexte(String texte) {
-        m_Texte = texte;
+    private void setTexte(String text) {
+        m_text = text;
     }
 
     public int getCursor1position() {
@@ -124,12 +123,12 @@ public class ZoneDeTravail {
     }
 
     public int getCursor2position() {
-        return m_posCursor2; 
+        return m_posCursor2;
     }
 
     public Memento save() {
         var copy = new ZoneDeTravail();
-        copy.m_Texte = m_Texte;
+        copy.m_text = m_text;
         copy.m_posCursor1 = m_posCursor1;
         copy.m_posCursor2 = m_posCursor2;
         var state = new Save(copy);
@@ -138,7 +137,7 @@ public class ZoneDeTravail {
 
     public void restore(Memento state) {
         var save = (Save) state;
-        m_Texte = save.getState().m_Texte;
+        m_text = save.getState().m_text;
         m_posCursor1 = save.getState().m_posCursor1;
         m_posCursor2 = save.getState().m_posCursor2;
     }

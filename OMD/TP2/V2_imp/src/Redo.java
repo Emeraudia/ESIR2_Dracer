@@ -7,5 +7,4 @@ public class Redo implements Command {
     public void Execute() {
         History.getInstance().redo();
     }
-    
 }

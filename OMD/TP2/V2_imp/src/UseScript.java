@@ -1,8 +1,8 @@
-public class UseScript implements Command{
+public class UseScript implements Command {
 
     private Script script;
 
-    public UseScript(){
+    public UseScript() {
         script = Script.getInstance();
     }
 
@@ -10,5 +10,4 @@ public class UseScript implements Command{
     public void Execute() {
         script.Execute();
     }
-    
 }
