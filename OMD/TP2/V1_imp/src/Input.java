@@ -74,7 +74,7 @@ public void keyPressed(KeyEvent e) {
     }
 
 
-    else if(((e.getKeyCode() >= 44 && e.getKeyCode()<= 111) || e.getKeyCode()==32) && e.getModifiers() == 0){// le reste des touches
+    else if(((e.getKeyCode() >= 44 && e.getKeyCode()<= 111) || e.getKeyCode()==32) && (e.getModifiers() == 0 || e.getModifiers() == e.SHIFT_MASK)){// le reste des touches
         key = e.getKeyChar();
         insert.Execute();
 

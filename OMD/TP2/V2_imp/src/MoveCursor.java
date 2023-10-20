@@ -1,3 +1,6 @@
+/**
+ * Commande pour deplacer un curseur
+ */
 public abstract class MoveCursor implements Command {
     /** Curseur a deplacer */
     private int m_cursor;

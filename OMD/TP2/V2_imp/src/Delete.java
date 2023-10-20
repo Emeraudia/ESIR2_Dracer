@@ -1,7 +1,7 @@
+/**
+ * Classe pour la commande "Supprimer"
+*/
 public class Delete implements Command  {
-
-    public Delete() {
-    }
 
     @Override
     /**
@@ -9,6 +9,5 @@ public class Delete implements Command  {
      */
     public void Execute() {
         ZoneDeTravail.getInstance().delete();
-        History.getInstance().save();
     }
 }

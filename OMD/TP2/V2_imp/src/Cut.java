@@ -1,12 +1,15 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe pour la commande "Couper"
+ */
 public class Cut implements Command {
+    /** List des commandes a faire */
     private List<Command> m_commands;
     
     public Cut() {
         m_commands = new ArrayList<Command>(2);
-        
         m_commands.add(new Copy());
         m_commands.add(new Delete());
     }

@@ -1,29 +1,50 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * Classe pour la gestion des evenements des touches
+ */
 class Input implements KeyListener {
 
+    /** Pattern design "Singleton" */
     private static Input singleton;
 
-    char key = ' ';
+    private char key;
+    boolean saveInput = false;
+    Script script = Script.getInstance();
 
-    InsertChar insert = new InsertChar();
-    Delete delete = new Delete();
-    Copy copy = new Copy();
-    Paste paste = new Paste();
-    Cut cut = new Cut();
-    MoveCursor1 leftCursor1 = new MoveCursor1(-1);
-    MoveCursor1 rightCursor1 = new MoveCursor1(1);
-    MoveCursor2 leftCursor2 = new MoveCursor2(-1);
-    MoveCursor2 rightCursor2 = new MoveCursor2(1);
-    Undo undo;
-    Forward forward;
+    // Commandes disponibles
+    private Command insert;
+    private Command delete;
+    private Command copy;
+    private Command paste;
+    private Command cut;
+    private Command leftCursor1;
+    private Command rightCursor1;
+    private Command leftCursor2;
+    private Command rightCursor2;
+    private Command useScript;
+    private Command undo;
+    private Command forward;
 
     protected Input() {
+        key = ' ';
+
+        insert = new InsertChar();
+        delete = new Delete();
+        copy = new Copy();
+        paste = new Paste();
+        cut = new Cut();
+        leftCursor1 = new MoveCursor1(-1);
+        rightCursor1 = new MoveCursor1(1);
+        leftCursor2 = new MoveCursor2(-1);
+        rightCursor2 = new MoveCursor2(1);
+        useScript = new UseScript();
         undo = new Undo();
-        forward = new Forward();
+        forward = new Redo();
     }
 
+    /** Recupere l'instance du singleton */
     public static Input getInstance() {
         if (singleton == null) {
             singleton = new Input();
@@ -34,53 +55,102 @@ class Input implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
 
-        if (e.getKeyCode() == 8) {// la touche backspace appele la commande delete
-            ZoneDeTravail z = ZoneDeTravail.getInstance();
-            if (z.getCursor1position() == z.getCursor2position()) {
-                z.moveCursor(0, -1);
+        if (saveInput && e.getExtendedKeyCode() != KeyEvent.VK_F1) {
+            script.add(e);
+        }
+
+        // Pas de modifier (Ctrl, Alt, Shift, ...)
+        if (e.getModifiersEx() == 0) {
+
+            // Touche Retour Arriere
+            if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+                // Commande delete
+                ZoneDeTravail z = ZoneDeTravail.getInstance();
+                if (z.getCursor1position() == z.getCursor2position())
+                    z.moveCursor(0, -1);
+                delete.Execute();
+                History.getInstance().save();
             }
-            delete.Execute();
-        } else if (e.getModifiers() == KeyEvent.CTRL_MASK && e.getKeyCode() == 67) { // ctrl+c, lance la copie
-            copy.Execute();
-        } else if (e.getModifiers() == KeyEvent.CTRL_MASK && e.getKeyCode() == 86) { // ctrl+v, lance le collage
-            paste.Execute();
-        } else if (e.getModifiers() == KeyEvent.CTRL_MASK && e.getKeyCode() == 88) {// ctrl+x, lance le coupage
-            cut.Execute();
+
+            // Fleche de gauche
+            else if (e.getKeyCode() == KeyEvent.VK_LEFT)
+                leftCursor1.Execute(); // Deplace le curseur vers la gauche
+
+            // Fleche de droite
+            else if (e.getKeyCode() == KeyEvent.VK_RIGHT)
+                rightCursor1.Execute(); // Deplace le curseur vers la droite
+
+            // Touche F1 (Rip moi c'est la touche de veille)
+            else if (e.getExtendedKeyCode() == KeyEvent.VK_F1) {
+                saveInput = !saveInput;
+                if (saveInput)
+                    script.newScript();
+            }
+
+            // Les caracteres possibles a inserer
+            else if ((e.getKeyCode() >= KeyEvent.VK_COMMA && e.getKeyCode() <= KeyEvent.VK_DIVIDE)
+                    || e.getKeyCode() == KeyEvent.VK_SPACE) {
+                key = e.getKeyChar();
+                insert.Execute();
+                History.getInstance().save();
+            }
         }
+        // Touche Ctrl appuye
+        else if (e.getModifiersEx() == KeyEvent.CTRL_DOWN_MASK) {
+            // Crtl+C
+            if (e.getKeyCode() == KeyEvent.VK_C) {
+                copy.Execute(); // Copie
+                History.getInstance().save();
+            }
 
-        else if (e.getModifiers() == e.CTRL_MASK && e.getKeyCode() == 37)// ctrl+<-, curseur secondaire vers la gauche
-        {
-            leftCursor2.Execute();
-        } else if (e.getKeyCode() == 37)// <-, curseur principal vers la gauche
-        {
-            leftCursor1.Execute();
+            // Ctrl+V
+            else if (e.getKeyCode() == KeyEvent.VK_V) {
+                paste.Execute(); // Coller
+                History.getInstance().save();
+            }
+
+            // Ctrl+X
+            else if (e.getKeyCode() == KeyEvent.VK_X) {
+                cut.Execute(); // Couper
+                History.getInstance().save();
+            }
+
+            // Ctrl+Fleche de gauche
+            else if (e.getKeyCode() == KeyEvent.VK_LEFT)
+                leftCursor2.Execute(); // Deplace le deuxieme curseur a gauche
+
+            // Ctrl+Fleche de gauche
+            else if (e.getKeyCode() == KeyEvent.VK_RIGHT)
+                rightCursor2.Execute(); // Deplace le deuxieme curseur a droite
+
+            // Ctrl+Z
+            else if (e.getKeyCode() == KeyEvent.VK_Z)
+                undo.Execute();
+
+            // Ctrl+Y
+            else if (e.getKeyCode() == KeyEvent.VK_Y)
+                forward.Execute();
+
+            // Crtl+F1
+            else if (e.getExtendedKeyCode() == KeyEvent.VK_F1) {
+                // Desactive l enregistrement de commandes
+                saveInput = false;
+                useScript.Execute();
+            }
         }
+        // Touche shift appuye
+        else if (e.getModifiersEx() == KeyEvent.SHIFT_DOWN_MASK) {
 
-        else if (e.getModifiers() == e.CTRL_MASK && e.getKeyCode() == 39)// ctrl+->, curseur secondaire vers la droite
-        {
-            rightCursor2.Execute();
-        } else if (e.getKeyCode() == 39)// ->, curseur principal vers la gauche
-        {
-            rightCursor1.Execute();
-        } else if (e.getModifiersEx() == KeyEvent.CTRL_DOWN_MASK && e.getKeyCode() == KeyEvent.VK_Z) // ctrl+Z, commande retour
-        {
-            undo.Execute();
-        } else if (e.getModifiersEx() == KeyEvent.CTRL_DOWN_MASK && e.getKeyCode() == KeyEvent.VK_Y) // ctrl+Y, commande avance
-        {
-            forward.Execute();
-        }
-
-        else if (((e.getKeyCode() >= 44 && e.getKeyCode() <= 111) || e.getKeyCode() == 32) && e.getModifiers() == 0) {// le
-                                                                                                                      // reste
-                                                                                                                      // des
-                                                                                                                      // touches
-            key = e.getKeyChar();
-            insert.Execute();
-
+            // Les caracteres possibles a inserer
+            if ((e.getKeyCode() >= KeyEvent.VK_COMMA && e.getKeyCode() <= KeyEvent.VK_DIVIDE)
+                    || e.getKeyCode() == KeyEvent.VK_SPACE) {
+                key = e.getKeyChar();
+                insert.Execute();
+                History.getInstance().save();
+            }
         }
 
         Window.getInstance().update();
-
     }
 
     @Override

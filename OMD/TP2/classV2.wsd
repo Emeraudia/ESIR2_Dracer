@@ -7,8 +7,8 @@ class Application {
  
 }
 
+
 class Window {
-    Window Instance
 
 }
 
@@ -25,14 +25,18 @@ class ZoneDeTravail {
     paste()
     delete()
     Insertchar(char a)
-
     Save():Memento
     Restore(m Memento)
     
+
 }
 
 class Input {
     keyPressed()
+}
+
+class Script{
+    getListEvent()
 }
 
 abstract Command {
@@ -74,6 +78,15 @@ class InsertChar {
     getKey()
 }
 
+class ToggleScript{
+    Execute()
+}
+
+class UseScript{
+    Execute()
+}
+
+Command <|--- MoveCursor
 class Undo {
     Execute()
 }
@@ -95,6 +108,8 @@ class Historique {
     forward()
 }
 
+
+Application *-- Window
 Application "1" *-- "1" ZoneDeTravail
 Application *-- Input
 Application *-- Window
@@ -102,7 +117,6 @@ Input *-- Command
 ZoneDeTravail -- Command
 Historique -- Command
 
-Command <|--- MoveCursor
 Command <|--- Delete
 Command <|--- Copy
 
@@ -110,9 +124,11 @@ Command <|--- Paste
 Command <|--- Cut
 Command <|--- InsertChar
 
+Command <|--- ToggleScript
+Command <|--- UseScript
+
 MoveCursor <|-- MoveCursor1
 MoveCursor <|-- MoveCursor2
-
 Command <|--- Undo
 Command <|--- Forward
 
@@ -122,9 +138,13 @@ Command --* Paste : Delete
 Input -- InsertChar : getKey
 Window -- ZoneDeTravail
 
-ZoneDeTravail --> Memento : Create
+Input "*" -- "1" Script : listEvent
+Input -- ToggleScript : toggleScript
+Script --* UseScript : listInput
+
+ZoneDeTravail --> Memento : Save
 Memento <|-- Sauvegarde
-Historique "1" -- "*" Memento
+Memento "1" -- "*" Historique
 
 
 @enduml
