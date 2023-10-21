@@ -2,3 +2,10 @@
 .vscode
 
 bin
+
+# LateX Complilation File
+*.aux
+*.fdb_latexmk
+*.log
+*.synctex.gz
+*.toc
