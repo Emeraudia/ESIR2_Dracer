@@ -22,7 +22,7 @@ public class History {
     /** Sauvegarde l'etat actuel */
     public void save() {
         while(m_history.size() > m_pos) {
-            m_history.removeLast();
+            ((LinkedList<Memento>) m_history).removeLast();
         }
         m_history.add(ZoneDeTravail.getInstance().save());
         m_pos++;
