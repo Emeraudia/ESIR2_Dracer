@@ -112,6 +112,7 @@ class Historique {
 Application *-- Window
 Application "1" *-- "1" ZoneDeTravail
 Application *-- Input
+Application *-- Window
 Input *-- Command
 ZoneDeTravail -- Command
 Historique -- Command
@@ -141,7 +142,7 @@ Input "*" -- "1" Script : listEvent
 Input -- ToggleScript : toggleScript
 Script --* UseScript : listInput
 
-ZoneDeTravail --> Memento : Create
+ZoneDeTravail --> Memento : Save
 Memento <|-- Sauvegarde
 Memento "1" -- "*" Historique
 

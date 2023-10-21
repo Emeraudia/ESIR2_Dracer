@@ -1,3 +1,6 @@
+/**
+ * Classe pour la commande "Insert d'un caractere"
+ */
 public class InsertChar implements Command {
     private Command m_delete;
 
@@ -11,7 +14,6 @@ public class InsertChar implements Command {
      */
     public void Execute() {
         m_delete.Execute();
-        ZoneDeTravail.getInstance().InsertChar(Input.getInstance().getKey());
-        
+        ZoneDeTravail.getInstance().InsertChar(Input.getInstance().getM_key());
     }
 }

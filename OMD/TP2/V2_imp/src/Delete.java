@@ -1,7 +1,7 @@
+/**
+ * Classe pour la commande "Supprimer"
+*/
 public class Delete implements Command  {
-
-    public Delete() {
-    }
 
     @Override
     /**

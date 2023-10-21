@@ -1,6 +1,9 @@
+/**
+ * Classe pour la commande "Coller"
+ */
 public class Paste implements Command {
-    private Command m_delete; 
-    
+    private Command m_delete;
+
     public Paste() {
         m_delete = new Delete();
     }
@@ -13,6 +16,4 @@ public class Paste implements Command {
         m_delete.Execute();
         ZoneDeTravail.getInstance().paste();
     }
-
-    
 }

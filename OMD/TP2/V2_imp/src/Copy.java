@@ -1,9 +1,8 @@
+/**
+ * Classe pour la commandes "Copier"
+ */
 public class Copy implements Command {
     
-    public Copy() {
-        
-    }
-
     @Override
     /**
      * Copie la zone de texte selectionne
