@@ -75,8 +75,7 @@ public class FFT_1D {
 			t2[i] = tab2[i];
 		}
 
-		//A COMPLETER !!
-		return null;
+		return FFT_inverse(CpxTab.multiplie(FFT(t1), FFT(t2)));
 	}
 
 	
@@ -124,20 +123,31 @@ public class FFT_1D {
 		double[] t5 = {1,2,3,4};
 
 		/* Exo 2: calculez et affichez TFD(1,2,3,4) */
+		System.out.println("FFT du polynome {1,2,3,4}");
 		CpxTab y = FFT(t5);
 		System.out.println(y);
+		System.out.println();
 		
 		/* Exo 3: calculez et affichez TFD_inverse(TFD(1,2,3,4)) */
+		System.out.println("FFT inverse de la FFT du polynome {1,2,3,4}");
 		System.out.println(FFT_inverse(y));
+		System.out.println();
 
 		/* Exo 4: multiplication polynomiale, vérification*/
 			/* A(X) = 2 et B(X)=-3 */
-			//A FAIRE		
+			double[] A = {2};
+			double[] B = {-3};
+			System.out.println(multiplication_polynome_viaFFT(A,B));	
 
 			/* A(X) = 2+X et B(X)= -3+2X */
-			//A FAIRE					
+			A = new double[]{2,1};
+			B = new double[]{-3,2};
+			System.out.println(multiplication_polynome_viaFFT(A,B));						
 
 			/* A(X) = 1 + 2X + 3X^2 + 4X^3 et B(X) = -3 + 2X - 5 X^2*/
+			A = new double[]{1,2,3,4};
+			B = new double[]{-3,2,-5,0};
+			System.out.println(multiplication_polynome_viaFFT(A,B));	
 	/*
 		System.out.println("-----------------------------------------------------");
 		System.out.println("   Comparaison des 2 méthodes de multiplications polynomiales");
