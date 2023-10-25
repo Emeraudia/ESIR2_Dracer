@@ -7,8 +7,27 @@ public class FFT_1D {
 	// la taille du résultat est le double de la taille de c1
 	public static CpxTab combine(CpxTab c1, CpxTab c2) {
 		assert (c1.taille()==c2.taille()) : "combine: c1 et c2 ne sont pas de même taille, taille c1="+c1.taille()+" taille c2="+c2.taille();
-		//A FAIRE
-		return null;
+		int n = c1.taille()+c2.taille();
+		CpxTab c = new CpxTab(n);
+
+		CpxTab wkn = new CpxTab(n/2);
+		for(int i = 0 ; i < n/2 ; i++){
+			wkn.set_p_reel(i, Math.cos(Math.PI*2*i/n));
+			wkn.set_p_imag(i, Math.sin(Math.PI*2*i/n));
+		}
+		
+		CpxTab wC2 = CpxTab.multiplie(wkn, c2);
+
+		for(int k = 0 ; k < n/2 ; k++){
+
+			c.set_p_reel(k, c1.get_p_reel(k)+wC2.get_p_reel(k));
+			c.set_p_imag(k, c1.get_p_imag(k)+wC2.get_p_imag(k));
+
+			c.set_p_reel(k+n/2, c1.get_p_reel(k)-wC2.get_p_reel(k));
+			c.set_p_imag(k+n/2, c1.get_p_imag(k)-wC2.get_p_imag(k));
+
+		}
+		return c;
 	}
 
 	//renvoie la TFD d'un tableau de complexes
