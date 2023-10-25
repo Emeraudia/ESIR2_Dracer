@@ -33,13 +33,18 @@ public class FFT_1D {
 	//renvoie la TFD d'un tableau de complexes
 	//la taille de x doit être une puissance de 2
 	public static CpxTab FFT(CpxTab x) {
-		//A FAIRE : Test d'arrêt
-
+		if(x.taille() == 1) return x; 
 		assert (x.taille()%2==0) : "FFT: la taille de x doit être une puissance de 2";
-		
-		//A FAIRE : Décomposition en "pair" et "impair" et appel récursif
+		CpxTab c1 = new CpxTab(x.taille()/2);
+		CpxTab c2 = new CpxTab(x.taille()/2);
 
-		return null;
+		for(int i = 0; i < x.taille() / 2; i++) {
+			c1.set_p_reel(i, x.get_p_reel(2*i));
+			c1.set_p_imag(i, x.get_p_imag(2*i));
+			c2.set_p_reel(i, x.get_p_reel(2*i+1));
+			c2.set_p_imag(i, x.get_p_imag(2*i+1));
+		}
+		return combine(FFT(c1), FFT(c2));
 	}
 
 	//renvoie la TFD d'un tableau de réels
@@ -115,7 +120,8 @@ public class FFT_1D {
 		double[] t5 = {1,2,3,4};
 
 		/* Exo 2: calculez et affichez TFD(1,2,3,4) */
-			//A FAIRE
+		CpxTab y = FFT(t5);
+		System.out.println(y);
 		
 		/* Exo 3: calculez et affichez TFD_inverse(TFD(1,2,3,4)) */
 			//A FAIRE		
