@@ -15,7 +15,7 @@ public class FFT_1D {
 			wkn.set_p_reel(i, Math.cos(Math.PI*2*i/n));
 			wkn.set_p_imag(i, Math.sin(Math.PI*2*i/n));
 		}
-		
+
 		CpxTab wC2 = CpxTab.multiplie(wkn, c2);
 
 		for(int k = 0 ; k < n/2 ; k++){
@@ -55,8 +55,12 @@ public class FFT_1D {
 			
 	//renvoie la transformée de Fourier inverse de y
 	public static CpxTab FFT_inverse(CpxTab y) {
-		//A FAIRE
-		return null;
+		CpxTab tmp = (FFT(y.conjugue())).conjugue();
+		for(int i = 0 ; i < y.taille() ; i++) {
+			tmp.set_p_reel(i, tmp.get_p_reel(i)/y.taille());
+			tmp.set_p_imag(i, tmp.get_p_imag(i)/y.taille());
+		}
+		return tmp;
 	}
 	
 	//calcule le produit de deux polynômes en utilisant la FFT
@@ -124,7 +128,7 @@ public class FFT_1D {
 		System.out.println(y);
 		
 		/* Exo 3: calculez et affichez TFD_inverse(TFD(1,2,3,4)) */
-			//A FAIRE		
+		System.out.println(FFT_inverse(y));
 
 		/* Exo 4: multiplication polynomiale, vérification*/
 			/* A(X) = 2 et B(X)=-3 */
