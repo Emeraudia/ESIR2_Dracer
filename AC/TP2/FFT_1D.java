@@ -118,6 +118,21 @@ public class FFT_1D {
 		}
 		System.out.println("]");
 	}
+
+
+	//FFT d'un vecteur
+	private static CpxTab TFD(double[] a) {
+		int n = a.length;
+		CpxTab FFT = new CpxTab(n);
+		for(int k = 0 ; k < n ; k++) {
+			for(int j = 0 ; j < n ; j++) {
+				FFT.set_p_reel(k, FFT.get_p_reel(k)+a[j]*Math.cos((2*Math.PI*k*j)/n));
+				FFT.set_p_imag(k, FFT.get_p_imag(k)+a[j]*Math.sin((2*Math.PI*k*j)/n));
+			}
+		}
+
+		return FFT;
+	}
 	
 	public static void main(String[] args) {
 		double[] t5 = {1,2,3,4};
@@ -148,17 +163,16 @@ public class FFT_1D {
 			A = new double[]{1,2,3,4};
 			B = new double[]{-3,2,-5,0};
 			System.out.println(multiplication_polynome_viaFFT(A,B));	
-	/*
+
 		System.out.println("-----------------------------------------------------");
 		System.out.println("   Comparaison des 2 méthodes de multiplications polynomiales");
 		double[] t6 = {-3,2,-5,0};
 		System.out.println("mult via FFT  --> " + multiplication_polynome_viaFFT(t5, t6));
 		System.out.print(  "mult via coeff -> ");
 		afficher(multiplication_polynome_viaCoeff(t5, t6));
-	*/
 
 		/* Exo 5: comparaison des temps de calculs */
-	/*
+
 		// Pour étude du temps de calcul 
 		int n = 256;  // taille des polynômes à multiplier (testez différentes valeurs en gardant des puissances de 2)
 			
@@ -174,8 +188,32 @@ public class FFT_1D {
 		multiplication_polynome_viaFFT(tab1, tab2);
 		date2 = System.currentTimeMillis();
 		System.out.println("   via FFT  : " + (date2 - date1));
-	*/
 
+
+		System.out.println("-----------------------------------------------------");
+		System.out.println("   TFD d'un vecteur");
+		n = 16;
+		double[] a = new double[n];
+		for(int i = 0 ; i < n ; i++) a[i] = 2;
+		System.out.print("Vecteur constant : ");
+		afficher(a);
+		System.out.println(TFD(a));
+
+		int k = 8;
+		for(int i = 0 ; i < n ; i++) a[i] = Math.cos(i*(2*Math.PI*k)/n);
+		System.out.print("Sinusoïd pure : ");
+		afficher(a);
+		System.out.println(TFD(a));
+
+		for(int i = 0 ; i < n ; i++) a[i] = Math.cos((2*Math.PI*i)/n)+Math.cos((2*Math.PI*3*i)/n)/2;
+		System.out.print("somme de 2 sinusoid : ");
+		afficher(a);
+		System.out.println(TFD(a));
+
+		for(int i = 0 ; i < n ; i++) a[i] = 4 + 2*Math.sin((2*Math.PI*2*i)/n)+Math.cos((2*Math.PI*7*i)/n);
+		System.out.print("somme de 2 sinusoid : ");
+		afficher(a);
+		System.out.println(TFD(a));
 	}
 
 }
