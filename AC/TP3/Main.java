@@ -48,8 +48,82 @@ public class Main {
 
 		//Ex5
 		Expression exp2 = new Ou(new Equiv(new Atome("x"), new Atome("y")), new Et(new Atome("z"), new Atome("y")));
-		ROBDD robdd2 = exp2.robdd();
-		System.out.println(robdd2);
-		System.out.println(robdd2.trouve_sat());
+		//System.out.println(exp2.robdd());
+
+		//Ex6
+		int n = 4;
+		printSatQueen(queenn(n).robdd().trouve_sat(), n);
+
 	}
+
+	public static Expression queenn(int n) {
+		// Au moins une ligne
+		Expression ligne1p = new Constante(true);
+		for (int i = 0; i < n; i++) {
+			Expression ligne = new Constante(false);
+			for (int j = 0; j < n; j++) {
+				ligne = new Ou(ligne, new Atome(i + " " + j));
+			}
+			ligne1p = new Et(ligne1p, ligne);
+		}
+
+		// Pas plus d'une par ligne
+		Expression ligne01 = new Constante(true);
+		for (int j = 0; j < n; j++) {
+			Expression ligneJ = new Constante(true);
+			for (int i = 0; i < n; i++) {
+				Expression caseIJ = new Atome(i + " " + j);
+				for (int k = 0; k < n; k++) {
+					if (k == i) continue;
+					ligneJ = new Et(ligneJ, new Non(new Atome(k + " " + j)));
+				}
+				ligneJ = new Implique(caseIJ, ligneJ);
+			}
+			ligne01 = new Et(ligne01, ligneJ);
+		}
+
+		// Pas plus d'une par colonne
+		Expression col01 = new Constante(true);
+		for (int i = 0; i < n; i++) {
+			Expression colI = new Constante(true);
+			for (int j = 0; j < n; j++) {
+				Expression caseIJ = new Atome(i + " " + j);
+				for (int k = 0; k < n; k++) {
+					if (k == j) continue;
+					colI = new Et(colI, new Non(new Atome(i + " " + k)));
+				}
+				colI = new Implique(caseIJ, colI);
+			}
+			col01 = new Et(col01, colI);
+		}
+
+		// Pas plus d'une par diagonale
+
+		
+		return new Et(ligne1p, new Et(ligne01, col01));
+	}
+
+	public static void printSatQueen(String s, int n) {
+		boolean[][] t = new boolean[n][n];
+		String[] cases = s.split("\\[");
+		for (String c : cases) {
+			String[] infos = c.split(" ");
+			if (infos.length <= 3) continue;
+			int x = Integer.parseInt(infos[0]);
+			int y = Integer.parseInt(infos[1]);
+			t[x][y] = infos[3].charAt(0) == '1';
+		}
+
+		System.out.println();
+		for(int i = 0; i < n; i++) {
+			for(int j = 0; j < n; j++){
+				if(t[i][j])
+					System.out.print(".");
+				else
+					System.out.print("x");
+			}
+			System.out.println();
+		}
+	} 
+
 }
