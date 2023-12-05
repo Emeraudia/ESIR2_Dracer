@@ -1,5 +1,6 @@
 package robdd;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,4 +45,31 @@ public class ROBDD {
 		}
 		return -1;
 	}
+
+	public String trouve_sat(){
+		String s = "";
+
+		
+		int pre = 1;
+		int i= findParent(pre);
+		while(i != -1){
+			if(R.get(i-2).getIdFilsGauche() == pre) s += "["+R.get(i-2).getNom()+" : 0] ";
+			else if(R.get(i-2).getIdFilsDroit() == pre) s += "["+R.get(i-2).getNom()+" : 1] ";
+			pre = i;
+			i = findParent(pre);
+		}
+
+		if(s == "") s = "pas satisfiable";
+		return s;
+	}
+
+
+	private int findParent(int id){
+		for(Noeud_ROBDD n : R){
+			if(n.getIdFilsGauche() == id) return n.getId();
+			if(n.getIdFilsDroit() == id) return n.getId();
+		}
+		return -1;
+	}
+
 }

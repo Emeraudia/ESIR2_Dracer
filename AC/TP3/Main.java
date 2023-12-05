@@ -48,6 +48,8 @@ public class Main {
 
 		//Ex5
 		Expression exp2 = new Ou(new Equiv(new Atome("x"), new Atome("y")), new Et(new Atome("z"), new Atome("y")));
-		System.out.println(exp2.robdd());
+		ROBDD robdd2 = exp2.robdd();
+		System.out.println(robdd2);
+		System.out.println(robdd2.trouve_sat());
 	}
 }
