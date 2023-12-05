@@ -69,15 +69,21 @@ public class Main {
 		Expression parLigne = new Constante(true);
 		Expression reineLigne = new Constante(true);
 		Expression reineColonne = new Constante(true);
+		Expression reineDiagonal_1 = new Constante(true);
+		Expression reineDiagonal_2 = new Constante(true);
 
 		for(int i = 0 ; i < N ; i++){
 			Expression tmpLigne = new Constante(false);
 			Expression tmpReineLigne = new Constante(true);
 			Expression tmpReineColonne = new Constante(true);
+			Expression tmpReineDiagonal_1 = new Constante(true);
+			Expression tmpReineDiagonal_2 = new Constante(true);
 			for(int j = 0 ; j < N ; j++){
 				tmpLigne = new Ou(new Atome(i+" "+j), tmpLigne);
 				Expression tmpReineLigneTmp = new Constante(true);
 				Expression tmpReineColonneTmp = new Constante(true);
+				Expression tmpReineDiagonalTmp_1 = new Constante(true);
+				Expression tmpReineDiagonalTmp_2 = new Constante(true);
 				for(int k = 0 ; k < N ; k++){
 					if(k != j){
 						tmpReineLigneTmp = new Et(new Non(new Atome(i+" "+k)), tmpReineLigneTmp);
@@ -85,21 +91,36 @@ public class Main {
 					if(k != i){
 						tmpReineColonneTmp = new Et(new Non(new Atome(k+" "+j)), tmpReineColonneTmp);
 					}
+					if(i-k>0 && j-k > 0 && k>0){
+						tmpReineDiagonalTmp_1 = new Et(new Non(new Atome((i-k)+" "+(j-k))), tmpReineDiagonalTmp_1);
+					}
+					if(i-k>0 && j+k < N && k>0){
+						tmpReineDiagonalTmp_2 = new Et(new Non(new Atome((i-k)+" "+(j+k))), tmpReineDiagonalTmp_2);
+					}
 				}
 				
 				tmpReineLigneTmp = new Implique(new Atome(i+" "+j), tmpReineLigneTmp);
 				tmpReineLigne = new Et(tmpReineLigneTmp, tmpReineLigne);
 				tmpReineColonneTmp = new Implique(new Atome(i+" "+j), tmpReineColonneTmp);
 				tmpReineColonne = new Et(tmpReineColonneTmp, tmpReineColonne);
+
+				tmpReineDiagonalTmp_1 = new Implique(new Atome(i+" "+j), tmpReineDiagonalTmp_1);
+				tmpReineDiagonal_1 = new Et(tmpReineDiagonalTmp_1, tmpReineDiagonal_1);
+				tmpReineDiagonalTmp_2 = new Implique(new Atome(i+" "+j), tmpReineDiagonalTmp_2);
+				tmpReineDiagonal_2 = new Et(tmpReineDiagonalTmp_2, tmpReineDiagonal_2);
 			}
 			parLigne = new Et(tmpLigne, parLigne);
 			reineLigne = new Et(tmpReineLigne,reineLigne);
 			reineColonne = new Et(tmpReineColonne, reineColonne);
+			reineDiagonal_1 = new Et(tmpReineDiagonal_1, reineDiagonal_1);
+			reineDiagonal_2 = new Et(tmpReineDiagonal_2, reineDiagonal_2);
 		}
 		parLigne = parLigne.simplifier();
 		reineColonne = reineColonne.simplifier();
 		reineLigne = reineLigne.simplifier();
-		Expression exp = new Et(new Et(reineLigne, reineColonne), parLigne);
+		reineDiagonal_1 = reineDiagonal_1.simplifier();
+		reineDiagonal_2 = reineDiagonal_2.simplifier();
+		Expression exp = new Et(new Et(new Et(reineLigne, reineColonne), new Et(reineDiagonal_1, reineDiagonal_2)), parLigne);
 		return exp;
 	}
 
