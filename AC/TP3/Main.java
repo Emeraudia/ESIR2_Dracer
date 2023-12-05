@@ -56,10 +56,11 @@ public class Main {
 		*/
 
 		//Partie 3
-		Expression reineExp = nreine(5);
+		int N = 5;
+		Expression reineExp = nreine(N);
 		ROBDD robddReine = reineExp.robdd();
 		//System.out.println(robddReine);
-		System.out.println(robddReine.trouve_sat());
+		printSatQueen(robddReine.trouve_sat(),N);
 		
 	}
 
@@ -101,4 +102,28 @@ public class Main {
 		Expression exp = new Et(new Et(reineLigne, reineColonne), parLigne);
 		return exp;
 	}
+
+	public static void printSatQueen(String s, int n) {
+		boolean[][] t = new boolean[n][n];
+		String[] cases = s.split("\\[");
+		for (String c : cases) {
+			String[] infos = c.split(" ");
+			if (infos.length <= 3) continue;
+			int x = Integer.parseInt(infos[0]);
+			int y = Integer.parseInt(infos[1]);
+			t[x][y] = infos[3].charAt(0) == '1';
+		}
+
+		System.out.println();
+		for(int i = 0; i < n; i++) {
+			for(int j = 0; j < n; j++){
+				if(t[i][j])
+					System.out.print("X");
+				else
+					System.out.print(".");
+			}
+			System.out.println();
+		}
+	} 
+
 }
