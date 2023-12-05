@@ -27,13 +27,13 @@ public class Equiv extends Expression {
 	}
 
 	public boolean evalue() throws RuntimeException {
-		return !this.e1.evalue() || this.e2.evalue();
+		return this.e1.evalue() == this.e2.evalue();
 	}
 
 	public Set<String> atomes() {
 		Set<String> s = new HashSet<String>();
 		s.addAll(e1.atomes());
-		s.addAll(e1.atomes());
+		s.addAll(e2.atomes());
 		return s;
 	}
 
