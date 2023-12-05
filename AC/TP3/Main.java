@@ -31,16 +31,9 @@ public class Main {
 		exp = exp.remplace("y2",false);
 		System.out.println(exp.evalue()); // (Faux <=> Vrai) ET (Faux <=> Faux)
 		
-				
+		// Ex2	
 		Expression exp1 = new Et(new Equiv(new Atome("x1"), new Atome("y1")), new Equiv(new Atome("x2"), new Atome("y2")));
 		List<String> ordre_atomes = new LinkedList<String>();
-		ordre_atomes.add("x");
-		ordre_atomes.add("y");
-		System.out.println("\n Arbre de exp : \n" + exp.arbre(ordre_atomes)); // <- que se passe-t-il ? 
-		Expression exp2 = new Et(new Atome("x"),new Atome("y")); // représente (x ^ y)
-		System.out.println("\n Arbre de exp2 : \n" + exp2.arbre(ordre_atomes));	
-
-		
 		ordre_atomes.add("x1");
 		ordre_atomes.add("x2");
 		ordre_atomes.add("y1");
