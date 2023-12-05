@@ -38,11 +38,9 @@ public class ROBDD {
 	// dont les fils droit et gauche sont d'indices respectifs fd et fg.
 	// Si ce noeud n'existe pas dans le diagramme, la fonction renvoie -1.
 	public int obtenirROBDDIndex(String nom, int fg, int fd) {
-		int index = 0;
 		for (Noeud_ROBDD n : R) {
 			if (n.getNom().equals(nom) && n.getIdFilsGauche() == fg && n.getIdFilsDroit() == fd)
-				return index;
-			index++;
+				return n.getId();
 		}
 		return -1;
 	}

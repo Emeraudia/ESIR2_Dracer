@@ -45,5 +45,9 @@ public class Main {
 		System.out.println(trueE.estFaux());
 		trueE = new Non(new Constante(true));
 		System.out.println(trueE.estFaux());
+
+		//Ex5
+		Expression exp2 = new Ou(new Equiv(new Atome("x"), new Atome("y")), new Et(new Atome("z"), new Atome("y")));
+		System.out.println(exp2.robdd());
 	}
 }

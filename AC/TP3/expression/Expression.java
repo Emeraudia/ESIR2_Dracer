@@ -29,11 +29,20 @@ public abstract class Expression {
 
 
 	public boolean estVrai(){
-		return this.evalue();
+		try {
+			return this.evalue();
+		} catch (Exception e) {
+			return false;
+		}
+		
 	}
 	
 	public boolean estFaux(){
-		return !this.evalue();
+		try {
+			return !this.evalue();
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	//construit l'arbre de shannon correspondant à l'expression courante en prenant comme ordre l'ordre indiqué par l'argument ordre_atomes
@@ -67,8 +76,23 @@ public abstract class Expression {
 	
 	//fonction récursive qui renvoie le noeud ROBDD associé à l'expression courante et construit le ROBDD (représenté par la liste G)
 	private int construireROBDD(ROBDD G, List<String> atomes_ordonnes){
-		// TODO
-		return -1;
+		Expression F = this.simplifier();
+		if(F.estVrai())return ROBDD.idTrue;
+		if(F.estFaux())return ROBDD.idFalse;
+		String max_var = atomes_ordonnes.get(0);
+		List<String> atomes_ordonne_modif = new LinkedList<>(atomes_ordonnes);
+		atomes_ordonne_modif.remove(0);
+		int n1 = F.remplace(max_var, false).construireROBDD(G,atomes_ordonne_modif);
+		int n2 = F.remplace(max_var, true).construireROBDD(G,atomes_ordonne_modif);
+		if(n1 == n2){
+			return n1;
+		}
+		int index = G.obtenirROBDDIndex(max_var, n1, n2);
+		if(index == -1){
+			G.ajouter(new Noeud_ROBDD(max_var, n1, n2));
+			return G.obtenirROBDDIndex(max_var, n1, n2);
+		}
+		return index;
 	}
 
 	//renvoie le ROBDD correspondant à l'expression courante avec un ordre aléatoire (donné par this.atomes())
