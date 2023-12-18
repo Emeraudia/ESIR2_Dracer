@@ -42,10 +42,11 @@ public class Individu_SAD implements Individu {
     @Override
     public double adaptation() {
         int sum = 0;
-        for(double i : poids){
-            sum += i;
+        for(int i = 0 ; i < stockage.size() ; i++){
+            if(stockage.get(i)) sum += poids[i];
         }
-        return capacite-sum;
+        if(sum > capacite) return 0;
+        return sum;
     }
 
     @Override
@@ -76,7 +77,7 @@ public class Individu_SAD implements Individu {
     @Override
     public void mutation(double prob) {
         for (int i = 0; i < stockage.size(); i++) {
-            if (rand.nextDouble() > prob)
+            if (rand.nextDouble() < prob)
                 stockage.set(i, !stockage.get(i));
         }
     }
