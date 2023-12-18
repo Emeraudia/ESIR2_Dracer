@@ -71,7 +71,6 @@ public class Main {
 		Expression reineColonne = new Constante(true);
 		Expression reineDiagonal_1 = new Constante(true);
 		Expression reineDiagonal_2 = new Constante(true);
-
 		for(int i = 0 ; i < N ; i++){
 			Expression tmpLigne = new Constante(false);
 			Expression tmpReineLigne = new Constante(true);
@@ -98,12 +97,10 @@ public class Main {
 						tmpReineDiagonalTmp_2 = new Et(new Non(new Atome((i-k)+" "+(j+k))), tmpReineDiagonalTmp_2);
 					}
 				}
-				
 				tmpReineLigneTmp = new Implique(new Atome(i+" "+j), tmpReineLigneTmp);
 				tmpReineLigne = new Et(tmpReineLigneTmp, tmpReineLigne);
 				tmpReineColonneTmp = new Implique(new Atome(i+" "+j), tmpReineColonneTmp);
 				tmpReineColonne = new Et(tmpReineColonneTmp, tmpReineColonne);
-
 				tmpReineDiagonalTmp_1 = new Implique(new Atome(i+" "+j), tmpReineDiagonalTmp_1);
 				tmpReineDiagonal_1 = new Et(tmpReineDiagonalTmp_1, tmpReineDiagonal_1);
 				tmpReineDiagonalTmp_2 = new Implique(new Atome(i+" "+j), tmpReineDiagonalTmp_2);

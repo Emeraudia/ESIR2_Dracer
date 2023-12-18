@@ -58,7 +58,6 @@ public class ROBDD {
 			pre = i;
 			i = findParent(pre);
 		}
-
 		if(s == "") s = "pas satisfiable";
 		return s;
 	}
