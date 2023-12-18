@@ -9,7 +9,7 @@ import Algo_Genetiques.Population;
 
 public class testPopulation {
 
-	//une classe qui implemente Individu et qui permet juste de spécifier adaptation
+	//une classe qui implemente Individu et qui permet juste de spï¿½cifier adaptation
 	class Individu_Test implements Algo_Genetiques.Individu{
 		private double adapt;
 		
