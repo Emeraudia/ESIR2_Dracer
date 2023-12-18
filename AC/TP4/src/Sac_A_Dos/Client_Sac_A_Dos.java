@@ -2,6 +2,7 @@ package Sac_A_Dos;
 
 import java.io.InputStream;
 import Util.Lecture;
+import Algo_Genetiques.Individu;
 import Algo_Genetiques.Population;
 
 public class Client_Sac_A_Dos {
@@ -53,7 +54,9 @@ public class Client_Sac_A_Dos {
 		 * de nbr_indiv individus associés au problème
 		 * du sac à dos considéré 
 		 */
-		//TODO
+		Individu_SAD[] list_individu = new Individu_SAD[nbr_indiv];
+		for(int i = 0 ; i < nbr_indiv ; i++) list_individu[i] = new Individu_SAD(capacite, poids);
+		Population population = new Population<>(list_individu);
 
 		
 		/* on génére les générations successives
@@ -62,7 +65,14 @@ public class Client_Sac_A_Dos {
 		 * on s'arrête si on a atteint la capacité ou si on fait un nombre donné (paramètre) d'itérations
 		 * le résultat est alors donné par l'individu maximal de la dernière génération
 		 */
-		//TODO
+		int i = 0;
+		while(i > 100 || population.adaptation_moyenne() == 0){
+			System.out.println("Génération : "+i);
+			System.out.println("adaptation maximale : " + population.adaptation_maximale());
+			System.out.println("adaptation moyenne : " + population.adaptation_moyenne());
+
+			population.reproduction(prob_mut);
+		}
 
 	}
 }
