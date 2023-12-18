@@ -32,9 +32,7 @@ public class Population<Indiv extends Individu> {
 		double somme = 0;
 		double somme_random = Math.random() * adapt_totale;
 		// population.sort((i1, i2) -> {
-		// 	if (i1.adaptation() > i2.adaptation())
-		// 		return 1;
-		// 	return -1;
+		// 	return Double.compare(i1.adaptation(), i2.adaptation());
 		// });
 		do {
 			somme += population.get(i).adaptation();
