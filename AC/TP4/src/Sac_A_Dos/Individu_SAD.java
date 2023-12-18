@@ -31,7 +31,6 @@ public class Individu_SAD implements Individu {
         this.rand = new Random();
         if(copy_individu) stockage = new ArrayList<>(parent.stockage);
         else stockage = new ArrayList<>();
-        
     }
 
     /**
