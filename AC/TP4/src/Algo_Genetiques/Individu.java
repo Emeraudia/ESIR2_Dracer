@@ -20,4 +20,7 @@ public interface Individu{
 	 * associé à la probabilité prob
 	 */
 	public void mutation(double prob);
+
+
+	public Individu copy();
 }

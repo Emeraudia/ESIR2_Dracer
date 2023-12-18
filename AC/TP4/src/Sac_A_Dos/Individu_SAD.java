@@ -29,8 +29,10 @@ public class Individu_SAD implements Individu {
         this.capacite = parent.capacite;
         this.poids = parent.poids;
         this.rand = new Random();
-        if(copy_individu) stockage = new ArrayList<>(parent.stockage);
-        else stockage = new ArrayList<>();
+        this.stockage = new ArrayList<>();
+        if(copy_individu) {
+            for(boolean b : parent.stockage) this.stockage.add(b);
+        }
     }
 
     /**
@@ -80,6 +82,11 @@ public class Individu_SAD implements Individu {
             if (rand.nextDouble() < prob)
                 stockage.set(i, !stockage.get(i));
         }
+    }
+
+    @Override
+    public Individu copy() {
+        return new Individu_SAD(this, true);
     }
 
 }

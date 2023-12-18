@@ -31,11 +31,11 @@ public class Population<Indiv extends Individu> {
 
 		double somme = 0;
 		double somme_random = Math.random() * adapt_totale;
-		population.sort((i1, i2) -> {
-			if (i1.adaptation() > i2.adaptation())
-				return 1;
-			return -1;
-		});
+		// population.sort((i1, i2) -> {
+		// 	if (i1.adaptation() > i2.adaptation())
+		// 		return 1;
+		// 	return -1;
+		// });
 		do {
 			somme += population.get(i).adaptation();
 			i++;
@@ -56,7 +56,9 @@ public class Population<Indiv extends Individu> {
 		List<Indiv> new_generation = new ArrayList<Indiv>();
 
 		/* élitisme */
-		new_generation.add(individu_maximal());
+		new_generation.add((Indiv) individu_maximal().copy());
+		new_generation.add((Indiv) individu_maximal().copy());
+		new_generation.add((Indiv) individu_maximal().copy());
 
 		// Adaptation Totale
 		double adapt_totale = 0;
@@ -65,7 +67,7 @@ public class Population<Indiv extends Individu> {
 
 
 		// tant qu'on n'a pas le bon nombre
-		while (new_generation.size() < population.size()) {
+		while (new_generation.size() < population.size()-1) {
 			// on sélectionne les parents
 			Indiv papa =  population.get(selection(adapt_totale));
 			Indiv maman = population.get(selection(adapt_totale));
@@ -78,9 +80,7 @@ public class Population<Indiv extends Individu> {
 		}
 
 		// on applique une éventuelle mutation à toute la nouvelle génération
-		for(Individu individu : new_generation) {
-			individu.mutation(prob_mut);
-		}
+		for(int i = 1 ; i < new_generation.size() ; i++) new_generation.get(i).mutation(prob_mut);
 
 		// on remplace l'ancienne par la nouvelle
 		population = new_generation;
