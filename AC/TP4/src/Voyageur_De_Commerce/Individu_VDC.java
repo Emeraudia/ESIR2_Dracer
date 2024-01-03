@@ -39,7 +39,7 @@ public class Individu_VDC implements Individu {
 			sum += Math.sqrt(Math.pow(2, coord_x[parcours[i]]-coord_x[parcours[i-1]]) +
 			Math.pow(2, coord_y[parcours[i]]-coord_y[parcours[i-1]]));
 		}
-		return sum;
+		return 1/sum;
 	}
 	@Override
 	public Individu[] croisement(Individu conjoint) {
@@ -70,16 +70,19 @@ public class Individu_VDC implements Individu {
 		}
 		
 		//deuxieme partie : si la ville n'a pas été visitée dans la premiere partie, on prend
-
+		int ind1 = ind;
+		int ind2 = ind;
 		for(int i=ind;i<parcours.length;i++){
 			if(!b1[conjoint_vdc.parcours[i]]){
-				enfants[0].parcours[i] = conjoint_vdc.parcours[i];
+				enfants[0].parcours[ind1] = conjoint_vdc.parcours[i];
 				b1[conjoint_vdc.parcours[i]] = true;
+				ind1++;
 			}
 			else enfants[0].parcours[i] = -1;
 			if(!b2[this.parcours[i]]){
-				enfants[1].parcours[i] = this.parcours[i];
+				enfants[1].parcours[ind2] = this.parcours[i];
 				b2[this.parcours[i]] = true;
+				ind2++;
 			}
 			else enfants[1].parcours[i] = -1;
 		}
@@ -87,11 +90,17 @@ public class Individu_VDC implements Individu {
 		//fin : on complète avec les villes non rencontrées 
 		for(int j = 0 ; j < parcours.length ; j++){
 			if(!b1[j]){
-				enfants[0].parcours[Arrays.asList(enfants[0].get_parcours()).indexOf(-1)] = j;
+				enfants[0].parcours[ind1] = j;
+				ind1++;
 			}
 			if(!b2[j]){
-				enfants[1].parcours[Arrays.asList(enfants[1].get_parcours()).indexOf(-1)] = j;
+				enfants[1].parcours[ind2] = j;
+				ind2++;
 			}
+		}
+		if(Math.random() < 0.8){
+			enfants[0].optim_2opt();
+			enfants[1].optim_2opt();
 		}
 
 		return enfants;
@@ -127,4 +136,34 @@ public class Individu_VDC implements Individu {
 		copy.parcours = this.parcours;
 		return copy;
 	}	
+
+
+	public void optim_2opt(){
+		for(int i=0;i<parcours.length;i++){
+			for(int j=i+1;j<parcours.length;j++){
+				if (gain(i,j)<0){ 
+					for(int k=0;k<(j-i+1)/2;k++){
+						int tmp = parcours[i+k];
+						parcours[i+k] = parcours[j-k];
+						parcours[j-k] = tmp;
+						
+					}
+				}
+			}
+		}		    
+	}
+	
+	private double gain(int i, int j){
+		int nb_villes = parcours.length;
+		 double gain = distance(parcours[i], parcours[(j+1)%nb_villes])
+				 	 + distance(parcours[(i+nb_villes-1)%nb_villes], parcours[j])
+				 	 - distance(parcours[(i+nb_villes-1)%nb_villes], parcours[i])
+				 	 - distance(parcours[j], parcours[(j+1)%nb_villes]);
+         return gain;
+	}
+
+	private double distance(int cite_a, int cite_b){
+		return Math.sqrt(Math.pow(2, coord_x[parcours[cite_b]]-coord_x[parcours[cite_a]]) +
+			Math.pow(2, coord_y[parcours[cite_b]]-coord_y[parcours[cite_a]]));
+	}
 }
