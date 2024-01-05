@@ -31,9 +31,6 @@ public class Population<Indiv extends Individu> {
 
 		double somme = 0;
 		double somme_random = Math.random() * adapt_totale;
-		// population.sort((i1, i2) -> {
-		// 	return Double.compare(i1.adaptation(), i2.adaptation());
-		// });
 		do {
 			somme += population.get(i).adaptation();
 			i++;
@@ -49,6 +46,9 @@ public class Population<Indiv extends Individu> {
 	 */
 	@SuppressWarnings("unchecked")
 	public void reproduction(double prob_mut) {
+		population.sort((i1,i2) ->{
+			return Double.compare(i1.adaptation(), i2.adaptation());
+		});
 
 		/***** on construit la nouvelle génération ****/
 		List<Indiv> new_generation = new ArrayList<Indiv>();
@@ -65,7 +65,7 @@ public class Population<Indiv extends Individu> {
 
 
 		// tant qu'on n'a pas le bon nombre
-		while (new_generation.size() < population.size()-1) {
+		while (new_generation.size() < population.size()) {
 			// on sélectionne les parents
 			Indiv papa =  population.get(selection(adapt_totale));
 			Indiv maman = population.get(selection(adapt_totale));
@@ -78,7 +78,7 @@ public class Population<Indiv extends Individu> {
 		}
 
 		// on applique une éventuelle mutation à toute la nouvelle génération
-		for(int i = 1 ; i < new_generation.size() ; i++) new_generation.get(i).mutation(prob_mut);
+		for(int i = 3 ; i < new_generation.size() ; i++) new_generation.get(i).mutation(prob_mut);
 
 		// on remplace l'ancienne par la nouvelle
 		population = new_generation;

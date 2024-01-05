@@ -3,7 +3,6 @@ package Voyageur_De_Commerce;
 import java.io.*;
 import Util.Lecture;
 import Algo_Genetiques.Population;
-import Sac_A_Dos.Individu_SAD;
 
 public class Client_Voyageur_De_Commerce {
 
@@ -32,13 +31,13 @@ public class Client_Voyageur_De_Commerce {
 	public static void main(String[] args) throws InterruptedException{
 
 		/* paramètres */ 
-		int nbr_indiv=100;
-		double prob_mut=0.1;
+		int nbr_indiv=1000;
+		double prob_mut=0.01;
 
 		/* on initialise les coordonnées des villes en les lisant ds un fichier 
 		 */
 
-		int nbr_villes = 16;
+		int nbr_villes = 64;
 		double[] coord_x = new double[nbr_villes];
 		double[] coord_y = new double[nbr_villes];
 		charge_coords("data_vdc/"+nbr_villes+"coords.txt",nbr_villes, coord_x, coord_y);
@@ -64,18 +63,25 @@ public class Client_Voyageur_De_Commerce {
 		/* on génére les générations successives
 		 * en faisant se reproduire la population
 		 * et on affiche l'adaptation moyenne et maximale de chaque génération
-		 * on s'arrête si on a atteint la capacité ou si on fait un nombre donné (paramètre) d'itérations
-		 * le résultat est alors donné par l'individu maximal de la dernière génération
+		 * on s'arrête si on fait un nombre donné (paramètre) d'itérations
+		 * le résultat est alors donné par l'individu maximal obtenus lors des itérations
 		 */
 		int i = 0;
+		double max_val = 0;
+		Individu_VDC best_individu = new Individu_VDC(coord_x, coord_y);
 		do{
 			population.reproduction(prob_mut);
 			System.out.println("Génération : "+i);
 			System.out.println("adaptation maximale : " + population.adaptation_maximale());
 			System.out.println("adaptation moyenne : " + population.adaptation_moyenne());
-
-			
+			if(population.adaptation_maximale() > max_val){
+				max_val = population.adaptation_maximale();
+				best_individu = (Individu_VDC)population.individu_maximal().copy();
+			}
 			i++;
-		}while(i < 100);
+		}while(i < 1000);
+
+		Display_VDC disp = new Display_VDC(best_individu); 
+		System.out.println(best_individu.adaptation());
 	}
 }
