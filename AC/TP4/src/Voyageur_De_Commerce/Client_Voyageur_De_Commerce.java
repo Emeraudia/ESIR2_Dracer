@@ -31,13 +31,13 @@ public class Client_Voyageur_De_Commerce {
 	public static void main(String[] args) throws InterruptedException{
 
 		/* paramètres */ 
-		int nbr_indiv=1000;
-		double prob_mut=0.01;
+		int nbr_indiv=100;
+		double prob_mut=0.2;
 
 		/* on initialise les coordonnées des villes en les lisant ds un fichier 
 		 */
 
-		int nbr_villes = 64;
+		int nbr_villes = 250;
 		double[] coord_x = new double[nbr_villes];
 		double[] coord_y = new double[nbr_villes];
 		charge_coords("data_vdc/"+nbr_villes+"coords.txt",nbr_villes, coord_x, coord_y);
@@ -69,6 +69,7 @@ public class Client_Voyageur_De_Commerce {
 		int i = 0;
 		double max_val = 0;
 		Individu_VDC best_individu = new Individu_VDC(coord_x, coord_y);
+		int can_break = 0;
 		do{
 			population.reproduction(prob_mut);
 			System.out.println("Génération : "+i);
@@ -77,9 +78,11 @@ public class Client_Voyageur_De_Commerce {
 			if(population.adaptation_maximale() > max_val){
 				max_val = population.adaptation_maximale();
 				best_individu = (Individu_VDC)population.individu_maximal().copy();
+				can_break = 0;
 			}
+			can_break++;
 			i++;
-		}while(i < 1000);
+		}while(i < 5000 && can_break < 250);
 
 		Display_VDC disp = new Display_VDC(best_individu); 
 		System.out.println(best_individu.adaptation());

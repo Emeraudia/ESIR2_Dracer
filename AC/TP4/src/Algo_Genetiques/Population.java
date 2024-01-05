@@ -54,9 +54,10 @@ public class Population<Indiv extends Individu> {
 		List<Indiv> new_generation = new ArrayList<Indiv>();
 
 		/* élitisme */
-		new_generation.add((Indiv) individu_maximal().copy());
-		new_generation.add((Indiv) individu_maximal().copy());
-		new_generation.add((Indiv) individu_maximal().copy());
+		Indiv bestIndiv = individu_maximal();
+		new_generation.add((Indiv)bestIndiv.copy());
+		new_generation.add((Indiv)bestIndiv.copy());
+		new_generation.add((Indiv)bestIndiv.copy());
 
 		// Adaptation Totale
 		double adapt_totale = 0;
@@ -119,13 +120,13 @@ public class Population<Indiv extends Individu> {
 	 * renvoie l'adaptation maximale de la population
 	 */
 	public double adaptation_maximale() {
-		double adaptation_max = 0;
-		for (Indiv individu : population) {
-			double adaptation = individu.adaptation();
-			if (adaptation > adaptation_max) {
-				adaptation_max = adaptation;
-			}
-		}
-		return adaptation_max;
+		// double adaptation_max = 0;
+		// for (Indiv individu : population) {
+		// 	double adaptation = individu.adaptation();
+		// 	if (adaptation > adaptation_max) {
+		// 		adaptation_max = adaptation;
+		// 	}
+		// }
+		return population.get(0).adaptation();
 	}
 }
