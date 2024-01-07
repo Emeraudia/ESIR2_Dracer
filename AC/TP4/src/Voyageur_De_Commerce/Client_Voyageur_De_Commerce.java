@@ -75,7 +75,7 @@ public class Client_Voyageur_De_Commerce {
 		do{
 			population.reproduction(prob_mut);
 			if(i%20 == 0){
-				System.out.println("Génération : "+i);
+				System.out.println("Génération VOYAGEUR DE COMMERCE : "+i);
 				System.out.println("adaptation maximale : " + population.adaptation_maximale());
 				System.out.println("adaptation moyenne : " + population.adaptation_moyenne());
 			}
@@ -92,9 +92,9 @@ public class Client_Voyageur_De_Commerce {
 		System.out.println(best_individu.adaptation());
 		System.out.println();
 		System.out.println("Pour un Voyageur de commerce traversant "+nbr_villes+" villes.");
-		System.out.println("On résoud le problème avec une population de "+nbr_indiv+" individus et une probabilité de mutation de "+prob_mut);
+		System.out.println("On résous le problème avec une population de "+nbr_indiv+" individus et une probabilité de mutation de "+prob_mut);
 		System.out.println();
-		System.out.println("Après "+i+" itération le résulat optimal ressemble à : ");
+		System.out.println("Après "+i+" itérations le résulat optimal ressemble à : ");
 		Display_VDC disp = new Display_VDC(best_individu); 
 	}
 }
