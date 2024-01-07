@@ -107,11 +107,12 @@ public class Individu_VDC implements Individu {
 	}
 	@Override
 	public void mutation(double prob) {
-		for(int i = 1 ; i < parcours.length ; i++){
+		for(int i = 0 ; i < parcours.length ; i++){
 			if(r.nextDouble() < prob) {
+				int permu = r.nextInt(parcours.length);
 				int tmp = this.parcours[i];
-				this.parcours[i] = this.parcours[i-1];
-				this.parcours[i-1] = tmp;
+				this.parcours[i] = this.parcours[permu];
+				this.parcours[permu] = tmp;
 			}
 		}
 		

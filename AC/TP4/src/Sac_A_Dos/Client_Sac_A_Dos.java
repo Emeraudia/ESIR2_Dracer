@@ -37,16 +37,16 @@ public class Client_Sac_A_Dos {
 		
 		/* paramètres */ 
 		int nbr_indiv=100;
-		double prob_mut=0.1;
+		double prob_mut=0.01;
 		
 		/* On initialise les poids en lisant un fichier 
 		 */
 		
-		// int nbr_objets=28;
-		// int capacite=1581;
+		int nbr_objets=28;
+		int capacite=1581;
 		
-		int nbr_objets=70;
-		int capacite=350;		
+		// int nbr_objets=70;
+		// int capacite=350;		
 		
 		double[] poids = charge_poids("./data_sad/nbrobj"+nbr_objets+"_capacite"+capacite+".txt",nbr_objets);
 		
@@ -68,14 +68,20 @@ public class Client_Sac_A_Dos {
 		int i = 0;
 		do{
 			population.reproduction(prob_mut);
-			System.out.println("Génération : "+i);
-			System.out.println("adaptation maximale : " + population.adaptation_maximale());
-			System.out.println("adaptation moyenne : " + population.adaptation_moyenne());
-
+			if(i%20==0){
+				System.out.println("Génération : "+i);
+				System.out.println("adaptation maximale : " + population.adaptation_maximale());
+				System.out.println("adaptation moyenne : " + population.adaptation_moyenne());
+			}
 			
 			i++;
 		}while(i < 1000 && population.adaptation_maximale() != capacite);
-
+		System.out.println();
+		System.out.println("Pour un sac de capacité : "+capacite+" et "+nbr_objets+" objets.");
+		System.out.println("On résoud le problème avec une population de "+nbr_indiv+" individus et une probabilité de mutation de "+prob_mut);
+		System.out.println();
+		System.out.println("Après "+i+" itération le résulat optimal à une adaptation de "+population.adaptation_maximale()+" soit la proposition :");
+		System.out.println(((Individu_SAD)population.individu_maximal()).stockage);
 	}
 }
 

@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class Individu_SAD implements Individu {
 
-    private List<Boolean> stockage;
+    public List<Boolean> stockage;
     private int capacite;
     private double[] poids;
 
